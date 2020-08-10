@@ -1,7 +1,7 @@
 <template>
   <tr>
-    <td>{{ patientInfo.pname }}</td>
-    <td>{{ patientInfo.page }}</td>
+    <td>{{ patientInfo.ptname }}</td>
+    <td>{{ patientInfo.ptphone }}</td>
     <td>{{ patientInfo.pid }}</td>
   </tr>
 </template>

@@ -12,4 +12,8 @@ function fetchPatients(patientname) {
   }
 }
 
-export { fetchPatients };
+function createPatient(patientInfo) {
+  return instance.post('patients', patientInfo);
+}
+
+export { fetchPatients, createPatient };

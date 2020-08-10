@@ -7,7 +7,7 @@
         placeholder="(환자 이름 검색)"
         autofocus
       />
-      <button type="submit" v-show="false"></button>
+      <button type="submit" v-show="true">버튼</button>
     </form>
     <router-link to="/">
       <img

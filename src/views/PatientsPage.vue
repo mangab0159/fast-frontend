@@ -16,6 +16,7 @@
             :patientInfo="patientInfo"
           ></PostPatients>
         </table>
+        <button @click.prevent="clickBtn">추가</button>
       </template>
     </div>
   </div>
@@ -24,7 +25,7 @@
 <script>
 import AppHeader from '@/components/common/AppHeader.vue';
 import PostPatients from '@/components/posts/PostPatients.vue';
-import { fetchPatients } from '@/api/index';
+import { fetchPatients, createPatient } from '@/api/index';
 
 export default {
   components: {
@@ -41,7 +42,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        this.isLoading = false;
+        this.isLoading = true;
         const patientname = this.$store.patientname;
         const { data } = await fetchPatients(patientname);
         this.isLoading = false;
@@ -52,6 +53,20 @@ export default {
         console.log(error);
         // console.log(error.response.data);
         // this.logMessage = error.response.data;
+      }
+    },
+    async clickBtn() {
+      try {
+        await createPatient({
+          ptid: 4,
+          ptname: '박성원',
+          ptphone: '01088886558',
+        });
+        this.$router.push('/patients');
+      } catch (error) {
+        console.log(error);
+        // console.log(error.response.data.message);
+        // this.logMessage = error.response.data.message;
       }
     },
   },
