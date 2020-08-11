@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppHeader></AppHeader>
+    <SearchBar></SearchBar>
     <div>
       <template v-if="isLoading">
         Loading...
@@ -16,20 +16,20 @@
             :patientInfo="patientInfo"
           ></PostPatients>
         </table>
-        <button @click.prevent="clickBtn">추가</button>
+        <!-- <button @click.prevent="clickBtn">추가</button> -->
       </template>
     </div>
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/common/AppHeader.vue';
+import SearchBar from '@/components/common/SearchBar.vue';
 import PostPatients from '@/components/posts/PostPatients.vue';
-import { fetchPatients, createPatient } from '@/api/index';
+import { fetchPatients, fetchPatientsName } from '@/api/index';
 
 export default {
   components: {
-    AppHeader,
+    SearchBar,
     PostPatients,
   },
   data() {
@@ -41,37 +41,48 @@ export default {
   },
   methods: {
     async fetchData() {
-      try {
-        this.isLoading = true;
-        const patientname = this.$store.patientname;
-        const { data } = await fetchPatients(patientname);
-        this.isLoading = false;
-        this.patientsInfo = data.patientsInfo;
-        this.$store.commit('setPatientname', '');
-        console.log('aaa');
-      } catch (error) {
-        console.log(error);
-        // console.log(error.response.data);
-        // this.logMessage = error.response.data;
+      this.isLoading = true;
+      const ptname = this.$route.params.ptname;
+      if (ptname === undefined) {
+        try {
+          const { data } = await fetchPatients();
+          this.isLoading = false;
+          this.patientsInfo = data.patientsInfo;
+        } catch (error) {
+          console.log(error);
+          // console.log(error.response.data);
+          // this.logMessage = error.response.data;
+        }
+      } else {
+        try {
+          const { data } = await fetchPatientsName(ptname);
+          this.isLoading = false;
+          this.patientsInfo = data.patientsInfo;
+          console.log('this.patientsInfo: ', this.patientsInfo);
+          console.log('data.patientsInfo: ', data.patientsInfo);
+        } catch (error) {
+          console.log(error);
+        }
       }
+      console.log('fetchData finished');
     },
-    async clickBtn() {
-      try {
-        await createPatient({
-          ptid: 4,
-          ptname: '박성원',
-          ptphone: '01088886558',
-        });
-        this.$router.push('/patients');
-      } catch (error) {
-        console.log(error);
-        // console.log(error.response.data.message);
-        // this.logMessage = error.response.data.message;
-      }
-    },
+    // async clickBtn() {
+    //   try {
+    //     await createPatient({
+    //       ptid: 4,
+    //       ptname: '박성원',
+    //       ptphone: '01088886558',
+    //     });
+    //     this.$router.push('/patients');
+    //   } catch (error) {
+    //     console.log(error);
+    // console.log(error.response.data.message);
+    // this.logMessage = error.response.data.message;
+    // }
+    // },
   },
   created() {
-    console.log('1111111111111');
+    console.log('PatientsPage.vue created');
     this.fetchData();
   },
 };
