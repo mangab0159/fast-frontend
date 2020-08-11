@@ -7,7 +7,7 @@
         placeholder="(환자 이름 검색)"
         autofocus
       />
-      <button type="submit" v-show="true">버튼</button>
+      <button type="submit" v-show="true">검색</button>
     </form>
     <router-link to="/">
       <img
@@ -29,11 +29,12 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$store.commit('setPatientname', this.patientname);
+      this.$router.push(`/patients/${this.patientname}`);
+      this.$router.go();
     },
   },
   created() {
-    console.log('aaaaaaaaaaaaaaa');
+    console.log('SearchBar created');
   },
 };
 </script>

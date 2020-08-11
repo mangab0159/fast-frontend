@@ -6,10 +6,14 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    component: () => import('@/views/Home.vue'),
+    component: () => import('@/views/MainPage.vue'),
   },
   {
     path: '/patients',
+    component: () => import('@/views/PatientsPage.vue'),
+  },
+  {
+    path: '/patients/:ptname',
     component: () => import('@/views/PatientsPage.vue'),
   },
   {
