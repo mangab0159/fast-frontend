@@ -1,6 +1,8 @@
 <template>
   <tr>
-    <td>{{ patientInfo.ptname }}</td>
+    <td>
+      <router-link to="/contents">{{ patientInfo.ptname }}</router-link>
+    </td>
     <td>{{ patientInfo.ptphone }}</td>
     <td>{{ patientInfo.pid }}</td>
   </tr>

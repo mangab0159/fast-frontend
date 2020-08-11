@@ -30,7 +30,6 @@ export default {
   methods: {
     submitForm() {
       this.$router.push(`/patients/${this.patientname}`);
-      this.$router.go();
     },
   },
   created() {

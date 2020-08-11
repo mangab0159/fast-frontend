@@ -1,23 +1,23 @@
 <template>
   <div>
-    <AppHeader></AppHeader>
+    <SearchBar></SearchBar>
     <div>
-      <ContentsHeader></ContentsHeader>
-      <ContentsBody></ContentsBody>
+      <!-- <ContentsHeader></ContentsHeader> -->
+      <!-- <ContentsBody></ContentsBody> -->
     </div>
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/common/AppHeader.vue';
-import ContentsHeader from '@/components/ContentsHeader.vue';
-import ContentsBody from '@/components/ContentsBody.vue';
+import SearchBar from '@/components/common/SearchBar.vue';
+// import ContentsHeader from '@/components/ContentsHeader.vue';
+// import ContentsBody from '@/components/ContentsBody.vue';
 
 export default {
   components: {
-    AppHeader,
-    ContentsHeader,
-    ContentsBody,
+    SearchBar,
+    // ContentsHeader,
+    // ContentsBody,
   },
 };
 </script>
