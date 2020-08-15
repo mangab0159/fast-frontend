@@ -5,32 +5,30 @@
       <template v-if="isLoading">
         Loading...
       </template>
-      <template v-else>
-        <table>
-          <th>이름</th>
-          <th>나이</th>
-          <th>환자 번호</th>
-          <PostPatients
-            v-for="patientInfo in patientsInfo"
-            :key="patientInfo._id"
-            :patientInfo="patientInfo"
-          ></PostPatients>
-        </table>
-        <!-- <button @click.prevent="clickBtn">추가</button> -->
-      </template>
+      <table v-else>
+        <th>이름</th>
+        <th>나이</th>
+        <th>환자 번호</th>
+        <PatientsList
+          v-for="patientInfo in patientsInfo"
+          :key="patientInfo._id"
+          :patientInfo="patientInfo"
+        ></PatientsList>
+      </table>
+      <!-- <button @click.prevent="clickBtn">추가</button> -->
     </div>
   </div>
 </template>
 
 <script>
 import SearchBar from '@/components/common/SearchBar.vue';
-import PostPatients from '@/components/posts/PostPatients.vue';
-import { fetchPatients, fetchPatientsName } from '@/api/index';
+import PatientsList from '@/components/patients/PatientsList.vue';
+import { fetchPatients, fetchPatientsName } from '@/api';
 
 export default {
   components: {
     SearchBar,
-    PostPatients,
+    PatientsList,
   },
   data() {
     return {

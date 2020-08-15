@@ -5,19 +5,19 @@ const instance = axios.create({
 });
 
 function fetchPatients() {
-  // if (patientname === '') {
   return instance.get('patients');
-  // } else {
-  // return instance.get('patients');
-  // }
 }
 
 function fetchPatientsName(ptname) {
   return instance.get(`patients/${ptname}`);
 }
 
+function fetchPcontents(ptid) {
+  return instance.get(`pcontents/${ptid}`);
+}
+
 function createPatient(patientInfo) {
   return instance.post('patients', patientInfo);
 }
 
-export { fetchPatients, createPatient, fetchPatientsName };
+export { fetchPatients, createPatient, fetchPatientsName, fetchPcontents };

@@ -17,8 +17,8 @@ const routes = [
     component: () => import('@/views/PatientsPage.vue'),
   },
   {
-    path: '/contents',
-    component: () => import('@/views/ContentsPage.vue'),
+    path: '/pcontents/:ptid',
+    component: () => import('@/views/PcontentsPage.vue'),
   },
   {
     path: '/worklists',
