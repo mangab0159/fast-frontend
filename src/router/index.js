@@ -21,6 +21,11 @@ const routes = [
     component: () => import('@/views/PcontentsPage.vue'),
   },
   {
+    path: '/tresult',
+    name: 'tresult',
+    component: () => import('@/views/TresultPage.vue'),
+  },
+  {
     path: '/worklists',
     component: () => import('@/views/WorklistsPage.vue'),
   },

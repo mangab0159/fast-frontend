@@ -20,6 +20,7 @@ export default {
       pcontentLink: '',
     };
   },
+
   created() {
     this.pcontentLink = `/pcontents/${this.patientInfo.ptid}`;
   },
