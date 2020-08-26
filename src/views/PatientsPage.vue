@@ -1,20 +1,25 @@
 <template>
   <div>
     <SearchBar></SearchBar>
-    <div>
+    <div class="app-body">
       <template v-if="isLoading">
         Loading...
       </template>
       <table v-else>
-        <th>이름</th>
-        <th>나이</th>
-        <th>환자 번호</th>
+        <tr class="table-head">
+          <th class="column1">이름</th>
+          <th>나이</th>
+          <th>환자번호</th>
+          <th>전화번호</th>
+          <th>등록일</th>
+        </tr>
         <PatientsList
           v-for="patientInfo in patientsInfo"
           :key="patientInfo._id"
           :patientInfo="patientInfo"
         ></PatientsList>
       </table>
+
       <!-- <button @click.prevent="clickBtn">추가</button> -->
     </div>
   </div>
@@ -85,4 +90,26 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+table {
+  margin: 100px auto 0px;
+  background-color: #fff;
+  width: 800px;
+  border-spacing: 2px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+th {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: 'Lato-Bold';
+  font-size: 17px;
+  color: rgb(225, 106, 0);
+  line-height: 1.4;
+}
+
+.table-head {
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+}
+</style>

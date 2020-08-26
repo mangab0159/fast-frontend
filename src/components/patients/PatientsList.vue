@@ -1,10 +1,12 @@
 <template>
   <tr>
-    <td>
+    <td class="column1">
       <router-link :to="pcontentLink">{{ patientInfo.ptname }}</router-link>
     </td>
-    <td>{{ patientInfo.ptphone }}</td>
-    <td>{{ patientInfo.ptid }}</td>
+    <td class="column2">{{ patientInfo.ptage }}</td>
+    <td class="column3">{{ patientInfo.ptid }}</td>
+    <td class="column4">{{ patientInfo.ptphone }}</td>
+    <td class="column5">{{ patientInfo.cdate }}</td>
   </tr>
 </template>
 <script>
@@ -27,4 +29,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.column1 a {
+  color: #808080;
+}
+</style>

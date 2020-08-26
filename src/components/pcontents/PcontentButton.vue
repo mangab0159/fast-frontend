@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <a href="javascript:;" @click="filterContent">
+  <a href="javascript:;" @click="filterContent">
+    <div class="cards-header-item">
       {{ this.pcontentName.contentName }}
-    </a>
-  </div>
+    </div>
+  </a>
 </template>
 <script>
 export default {
