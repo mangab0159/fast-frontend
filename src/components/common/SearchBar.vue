@@ -24,6 +24,7 @@ export default {
       patientname: '',
     };
   },
+
   methods: {
     submitForm() {
       this.$router.push(`/patients/${this.patientname}`);

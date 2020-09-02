@@ -33,7 +33,6 @@ export default {};
 <style scoped>
 .bgImg {
   position: relative;
-  z-index: 1;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -58,15 +57,16 @@ export default {};
   background-color: transparent;
 }
 .jumbotron h1 {
-  font-size: 7rem;
+  font-size: 6rem;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 1.4rem;
+  font-weight: 50;
 }
 
 .jumbotron p {
   font-size: 1.2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .jumbotron .btn-lg {

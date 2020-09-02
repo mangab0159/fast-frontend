@@ -1,21 +1,27 @@
 <template>
   <div class="card">
-    <div
-      class="image"
-      :style="{
-        backgroundImage:
-          'url(' +
-          require('../../assets/' + pcontentInfo.content.ctname + '.png') +
-          ')',
-      }"
-    ></div>
-    <div class="score">{{ pcontentInfo.score }} 점</div>
-    <div class="ctname">{{ pcontentInfo.content.ctname }}</div>
-    <div class="cdate">{{ this.datePlayed }}</div>
-    <div class="footer">
-      <router-link :to="tresultLink">
-        자세히 보기
-      </router-link>
+    <router-link :to="tresultLink">
+      <div class="image-container">
+        <div
+          class="image"
+          :style="{
+            backgroundImage:
+              'url(' +
+              require('../../assets/' + pcontentInfo.content.ctname + '.png') +
+              ')',
+          }"
+        ></div>
+        <div class="ctname">{{ pcontentInfo.content.ctname }}</div>
+      </div>
+    </router-link>
+    <div class="card-info">
+      <div class="score">{{ pcontentInfo.score }} 점</div>
+      <div class="cdate">{{ this.datePlayed }}</div>
+      <!-- <div class="footer">
+        <router-link :to="tresultLink">
+          자세히 보기
+        </router-link>
+      </div> -->
     </div>
   </div>
 </template>
@@ -54,43 +60,57 @@ export default {
 
 <style>
 .card {
-  margin: 3px;
-  padding: 10px 1px 0px;
-  border: 2px solid #ebebeb;
-  display: grid;
-  grid-template:
-    'image image image' 190px
-    'ctname score cdate' 40px
-    'footer footer footer' 20px
-    / 3fr minmax(70px, 3fr) minmax(95px, 2fr);
+  border: 1px solid #ffffff;
+  position: relative;
 }
+
+.card-info {
+  display: flex;
+  padding-top: 5px;
+  justify-content: space-between;
+}
+
 .card .image {
-  grid-area: image;
+  border-radius: 10px;
   background-size: cover;
   background-repeat: no-repeat;
+  padding-bottom: 75%;
+  transition: 0.45s ease;
 }
+
 .card .score {
-  grid-area: score;
-  padding: 5px;
-  align-self: end;
-  justify-self: center;
-  font-size: 18px;
+  font-size: 15px;
+  padding-left: 6px;
 }
 .card .cdate {
-  grid-area: cdate;
   font-size: 14px;
-  padding: 5px 10px 5px 5px;
   color: rgb(211, 211, 211);
-  align-self: end;
-  justify-self: end;
+  padding-right: 5px;
 }
 .card .ctname {
-  padding: 5px;
-  grid-area: ctname;
-  align-self: end;
-  justify-self: center;
   font-size: 16px;
+  color: #000000;
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 10px;
+  color: #ffffff;
+  padding: 0px 12px 3px;
+  transition: 0.45s ease;
+  position: absolute;
+  opacity: 0;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
+.image-container:hover .ctname {
+  opacity: 1;
+}
+
+.image-container:hover .image {
+  opacity: 0.8;
+}
+
+/*
 .card .footer {
   grid-area: footer;
   font-size: 16px;
@@ -98,5 +118,5 @@ export default {
   justify-self: end;
   padding-bottom: 1px;
   padding-right: 10px;
-}
+} */
 </style>

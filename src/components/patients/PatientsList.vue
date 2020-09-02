@@ -29,8 +29,4 @@ export default {
 };
 </script>
 
-<style>
-.column1 a {
-  color: #808080;
-}
-</style>
+<style></style>

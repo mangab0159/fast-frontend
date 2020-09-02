@@ -5,21 +5,30 @@
       <template v-if="isLoading">
         Loading...
       </template>
-      <table v-else>
-        <tr class="table-head">
-          <th class="column1">이름</th>
-          <th>나이</th>
-          <th>환자번호</th>
-          <th>전화번호</th>
-          <th>등록일</th>
-        </tr>
-        <PatientsList
-          v-for="patientInfo in patientsInfo"
-          :key="patientInfo._id"
-          :patientInfo="patientInfo"
-        ></PatientsList>
-      </table>
+      <template v-else>
+        <table>
+          <tr class="table-head">
+            <th class="column1">이름</th>
+            <th>나이</th>
+            <th>환자번호</th>
+            <th>전화번호</th>
+            <th>등록일</th>
+          </tr>
+          <PatientsList
+            v-for="patientInfo in patientsInfo"
+            :key="patientInfo._id"
+            :patientInfo="patientInfo"
+          ></PatientsList>
+        </table>
 
+        <div class="bg">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </template>
       <!-- <button @click.prevent="clickBtn">추가</button> -->
     </div>
   </div>
@@ -90,19 +99,28 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 table {
-  margin: 100px auto 0px;
+  border-collapse: collapse;
   background-color: #fff;
-  width: 800px;
+  width: 70%;
+  min-width: 500px;
   border-spacing: 2px;
   border-radius: 10px;
   -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  margin-left: -35%;
 }
 
 th {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
   padding-top: 15px;
   padding-bottom: 15px;
+  padding-right: 10px;
   font-family: 'Lato-Bold';
   font-size: 17px;
   color: rgb(225, 106, 0);
@@ -111,5 +129,58 @@ th {
 
 .table-head {
   -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+td {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 10px;
+  color: #808080;
+  width: 16.6%;
+}
+
+td > a {
+  color: #808080;
+}
+
+.column1 {
+  padding-left: 20px;
+}
+
+.bg {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -10;
+}
+
+.bg > div {
+  /* width: auto;
+  height: 17vh; */
+  height: 28vh;
+  background-image: url('../assets/section1.png');
+  background-position: right bottom;
+  background-attachment: fixed;
+  opacity: 0.7;
+}
+
+.bg > div:nth-child(1) {
+  margin-top: 50px;
+}
+
+.bg > div:nth-child(odd) {
+  height: 28vh;
+  background-image: url('../assets/section1.png');
+  background-position: right bottom;
+  background-attachment: fixed;
+  opacity: 0.7;
 }
 </style>
