@@ -1,9 +1,7 @@
 <template>
-  <a href="javascript:;" @click="filterContent">
-    <div class="cards-header-item">
-      {{ this.pcontentName.contentName }}
-    </div>
-  </a>
+  <b-dropdown-item href="javascript:;" @click="filterContent">
+    <div>{{ this.pcontentName.contentName }}</div>
+  </b-dropdown-item>
 </template>
 <script>
 export default {

@@ -58,7 +58,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   border: 1px solid #ffffff;
   position: relative;
@@ -109,7 +109,6 @@ export default {
 .image-container:hover .image {
   opacity: 0.8;
 }
-
 /*
 .card .footer {
   grid-area: footer;

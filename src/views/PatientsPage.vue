@@ -99,7 +99,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 table {
   border-collapse: collapse;
   background-color: #fff;
@@ -129,30 +129,6 @@ th {
 
 .table-head {
   -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
-}
-
-tr {
-  display: table-row;
-  vertical-align: inherit;
-  border-color: inherit;
-  border-bottom: 1px solid #f2f2f2;
-}
-
-td {
-  text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-right: 10px;
-  color: #808080;
-  width: 16.6%;
-}
-
-td > a {
-  color: #808080;
-}
-
-.column1 {
-  padding-left: 20px;
 }
 
 .bg {

@@ -14,7 +14,26 @@
               with VR contents by this service.
             </p>
           </div>
-          <div class="cards-header-items">
+          <div class="button-wrap">
+            <b-dropdown
+              id="dropdown-1"
+              text="컨텐츠 필터"
+              class="m-md-2"
+              variant="white border-secondary"
+              size="sm"
+            >
+              <b-dropdown-item href="javascript:;" @click="selectAllContents">
+                <div>전체보기</div>
+              </b-dropdown-item>
+              <PcontentButton
+                v-for="pcontentName in pcontentNames"
+                :key="pcontentName.ctid"
+                :pcontentName="pcontentName"
+                @filterContent="contentFilter"
+              ></PcontentButton>
+            </b-dropdown>
+          </div>
+          <!-- <div class="cards-header-items">
             <a href="javascript:;" @click="selectAllContents">
               <div class="cards-header-item">
                 전체보기
@@ -26,7 +45,7 @@
               :pcontentName="pcontentName"
               @filterContent="contentFilter"
             ></PcontentButton>
-          </div>
+          </div> -->
           <div class="cards-body">
             <PcontentsList
               v-for="pcontentInfo in pcontentsInfo"
@@ -103,7 +122,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .jumbotron {
   padding-bottom: 2vw;
   text-align: center;
@@ -132,20 +151,6 @@ export default {
   grid-column-gap: 7px;
 }
 
-.cards-header-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
-  margin: 10px 10px 15px;
-  box-sizing: border-box;
-  background-color: rgba(225, 106, 0, 0.8);
-  /* background-color: rgba(0, 0, 0, 0.75); */
-  border-radius: 10px;
-  color: #ffffff;
-  -webkit-box-shadow: 0 0px 5px 0px rgba(225, 106, 0, 0.75);
-}
-
 .cards-body {
   margin-top: 10px;
   display: grid;
@@ -153,4 +158,13 @@ export default {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 36px;
 }
+
+.button-wrap {
+  margin-bottom: 2rem;
+}
+/* b-dropdown #dropdown-1 {
+  color: rgb(38, 63, 82);
+  background-color: #ffffff;
+  border-color: #6c757d;
+} */
 </style>
