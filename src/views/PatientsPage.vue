@@ -22,11 +22,11 @@
         </table>
 
         <div class="bg">
+          <!-- <div></div>
           <div></div>
           <div></div>
           <div></div>
-          <div></div>
-          <div></div>
+          <div></div> -->
         </div>
       </template>
       <!-- <button @click.prevent="clickBtn">추가</button> -->
@@ -109,7 +109,7 @@ table {
   border-radius: 10px;
   -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
   position: absolute;
-  top: 100px;
+  top: 105px;
   left: 50%;
   margin-left: -35%;
 }
@@ -133,15 +133,21 @@ th {
 
 .bg {
   width: 100vw;
-  height: 100vh;
+  height: 120vh;
   position: absolute;
   z-index: -10;
+  background-image: url('../assets/section1.jpg');
+  background-position: right bottom;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.5;
 }
 
-.bg > div {
-  /* width: auto;
+/* .bg > div { */
+/* width: auto;
   height: 17vh; */
-  height: 28vh;
+/* height: 28vh;
   background-image: url('../assets/section1.png');
   background-position: right bottom;
   background-attachment: fixed;
@@ -158,5 +164,5 @@ th {
   background-position: right bottom;
   background-attachment: fixed;
   opacity: 0.7;
-}
+} */
 </style>

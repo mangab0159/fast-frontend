@@ -7,13 +7,13 @@
       </template>
       <template v-else>
         <div class="wrap">
-          <div class="jumbotron">
+          <!-- <div class="jumbotron">
             <h1>FAST</h1>
             <p class="desc">
               Patients can rehabiltate their upper limbs using embeded devices
               with VR contents by this service.
             </p>
-          </div>
+          </div> -->
           <div class="button-wrap">
             <b-dropdown
               id="dropdown-1"
@@ -62,7 +62,7 @@
 <script>
 import SearchBar from '@/components/common/SearchBar.vue';
 import PcontentButton from '@/components/pcontents/PcontentButton.vue';
-import PcontentsList from '@/components/pcontents/PcontentsList';
+import PcontentsList from '@/components/pcontents/PcontentsList.vue';
 import { fetchPcontents } from '@/api';
 // import { createLogger } from 'vuex';
 
@@ -137,19 +137,19 @@ export default {
 }
 
 .wrap {
-  padding-top: 2rem;
+  padding-top: 5rem;
   padding-left: 7vw;
   padding-right: 7vw;
   margin-bottom: 6rem;
 }
 
-.cards-header-items {
+/* .cards-header-items {
   margin: 10px auto 2rem;
   display: grid;
   grid-auto-flow: row;
   grid-template-columns: repeat(auto-fill, minmax(50px, 120px));
   grid-column-gap: 7px;
-}
+} */
 
 .cards-body {
   margin-top: 10px;
