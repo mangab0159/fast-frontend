@@ -5,7 +5,11 @@
         <div>
           <div></div>
           <div class="name">Exercise Time</div>
-          <line-chart class="chart"></line-chart>
+          <div class="desc">- Time taken to perform the task(s)</div>
+          <!-- <div class="val">
+            {{ taskResults[taskResults.length - 1].etime }}
+          </div> -->
+          <exercise-chart class="chart" :data="etime"></exercise-chart>
         </div>
       </div>
     </div>
@@ -14,6 +18,11 @@
         <div>
           <div></div>
           <div class="name">Response Time</div>
+          <div class="desc">- Time taken to respond to the task(ms)</div>
+          <!-- <div class="val">
+            {{ taskResults[taskResults.length - 1].rtime }}
+          </div> -->
+          <response-chart class="chart" :data="rtime"></response-chart>
         </div>
       </div>
     </div>
@@ -22,88 +31,17 @@
         <div>
           <div></div>
           <div class="name">Maximum Operation Range</div>
-          <DxChart
-            class="chart"
-            id="chart"
-            :data-source="jointRange"
-            palette="soft"
-            :rotated="true"
-          >
-            <DxCommonSeriesSettings argument-field="date" type="rangebar" />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <DxSeries
-              range-value1-field="aVal1"
-              range-value2-field="aVal2"
-              name="ANS West Coast"
-            />
-            <!-- <DxValueAxis title="$ per barrel" /> -->
-
-            <!-- <DxExport :enabled="true" /> -->
-            <!-- <DxArgumentAxis> -->
-            <!-- <DxLabel format="month" /> -->
-            <!-- </DxArgumentAxis> -->
-            <DxLegend
-              position="inside"
-              vertical-alignment="top"
-              horizontal-alignment="center"
-              items-alignment="left"
-            />
-            <DxLegend :visible="true" />
-          </DxChart>
+          <div class="desc">
+            - The motion range while performing the task(degree)
+          </div>
+          <div class="chart-title">
+            Left Hand
+          </div>
+          <left-range-chart :data="mrangeVals"></left-range-chart>
+          <div class="chart-title">
+            Right Hand
+          </div>
+          <right-range-chart :data="mrangeVals"></right-range-chart>
         </div>
       </div>
     </div>
@@ -118,36 +56,69 @@
   </div>
 </template>
 <script>
-import LineChart from '@/charts/LineChart.vue';
-import DxChart, {
-  DxCommonSeriesSettings,
-  DxSeries,
-  // DxArgumentAxis,
-  // DxValueAxis,
-  // DxLabel,
-  // DxExport,
-  DxLegend,
-} from 'devextreme-vue/chart';
+import ExerciseChart from '@/charts/ExerciseChart.vue';
+import ResponseChart from '@/charts/ResponseChart.vue';
+import LeftRangeChart from '@/charts/LeftRangeChart.vue';
+import RightRangeChart from '@/charts/RightRangeChart.vue';
 
-import { jointRange } from '@/data/data.js';
 export default {
   components: {
-    LineChart,
-    DxChart,
-    // DxArgumentAxis,
-    DxSeries,
-    DxLegend,
-    DxCommonSeriesSettings,
-    // DxValueAxis,
-    // DxLabel,
-    // DxExport,
+    ExerciseChart,
+    ResponseChart,
+    LeftRangeChart,
+    RightRangeChart,
   },
-  data() {
-    return {
-      jointRange,
-    };
+  props: {
+    ertimeVals: {
+      type: Array,
+      required: true,
+    },
+    mrangeVals: {
+      type: Object,
+      required: true,
+    },
   },
-  methods: {},
+  methods: {
+    deepCopy(obj) {
+      var clone = {};
+      if (typeof obj === Object && obj !== null) {
+        for (var key in obj) {
+          clone[key] = this.deepCopy(obj[key]);
+        }
+      } else clone = obj;
+      return clone;
+    },
+  },
+  computed: {
+    // etime: function() {
+    //   console.log('etime changed');
+    //   var ret = this.deepCopy(this.etimeBase);
+    //   ret.datasets[0].data = [];
+    //   for (var i = 0; i < this.taskResults.length; i++) {
+    //     ret.datasets[0].data[i] = this.taskResults[i].etime;
+    //   }
+    //   return ret;
+    // },
+    etime() {
+      let ret = [];
+      for (var i = 0; i < this.ertimeVals.length; i++) {
+        ret[i] = this.ertimeVals[i].etime;
+      }
+      return ret;
+    },
+    rtime() {
+      let ret = [];
+      for (var i = 0; i < this.ertimeVals.length; i++) {
+        ret[i] = this.ertimeVals[i].rtime;
+      }
+      console.log('etime', ret);
+      return ret;
+    },
+  },
+  created() {
+    console.log('ertimeVals', this.ertimeVals);
+    // console.log('props.taskResults', this.taskResults);
+  },
 };
 </script>
 <style scoped>
@@ -199,6 +170,11 @@ export default {
   padding-bottom: 100%;
 }
 
+.tresult:nth-child(3) .wrapper {
+  width: 100%;
+  height: 0;
+  padding-bottom: 140%;
+}
 .wrapper > div {
   position: absolute;
   top: 0;
@@ -209,24 +185,58 @@ export default {
 
 .wrapper > div > div:first-child {
   width: 100%;
-  min-height: 17px;
   height: 4%;
+  min-height: 17px;
+  max-height: 22px;
   /* background-color: rgb(60, 181, 100); */
   background-color: rgb(10, 7, 172);
 }
-
 .name {
-  font-size: 1.3em;
+  font-size: 1.4rem;
   font-weight: 600;
   word-spacing: -0.1rem;
   /* color: rgb(188, 188, 190); */
-  color: rgba(0, 0, 0, 1);
-  padding-left: 10%;
+  /* color: rgba(0, 0, 0, 1); */
+  padding-left: 9%;
   padding-top: 5%;
 }
+.desc {
+  font-size: 0.9rem;
+  /* font-weight: 600; */
+  /* word-spacing: -0.1rem; */
+  /* color: rgb(188, 188, 190); */
+  /* color: rgba(0, 0, 0, 1); */
+  padding-top: 2%;
+  padding-left: 12%;
+}
+.chart-title {
+  white-space: pre;
+  font-size: 1.5rem;
+  font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI',
+    'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;
+  font-weight: 200;
+  fill: #232323;
+  cursor: default;
+  padding-top: 2rem;
+  padding-left: 38%;
+  padding-bottom: 2rem;
+}
 
+.val {
+  font-size: 1rem;
+  font-weight: 600;
+  color: darkblue;
+  padding-top: 2%;
+  padding-left: 48%;
+}
 .chart {
-  padding: 1.5rem 1rem 1rem;
+  padding: 2rem 1rem 1rem;
   height: 80%;
+}
+
+.rangechart {
+  padding: 1rem 1rem 0.5rem;
+  height: 35%;
+  padding-bottom: 2rem;
 }
 </style>

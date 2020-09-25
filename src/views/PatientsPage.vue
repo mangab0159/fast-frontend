@@ -136,7 +136,7 @@ th {
   height: 120vh;
   position: absolute;
   z-index: -10;
-  background-image: url('../assets/section1.jpg');
+  background-image: url('../assets/section1.png');
   background-position: right bottom;
   background-attachment: fixed;
   background-repeat: no-repeat;
