@@ -60,13 +60,14 @@ export default {};
   font-size: 6rem;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
-  margin-bottom: 1.4rem;
+  padding-top: 2rem;
+  padding-bottom: 1.4rem;
   font-weight: 50;
 }
 
 .jumbotron p {
   font-size: 1.2rem;
-  margin-bottom: 1rem;
+  padding-bottom: 2.5rem;
 }
 
 .jumbotron .btn-lg {
