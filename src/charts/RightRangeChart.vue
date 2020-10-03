@@ -1,32 +1,29 @@
 <template>
-  <div>
-    <DxChart
-      class="rangechart"
-      id="chart"
-      :data-source="rightRange"
-      palette="Violet"
-      :rotated="true"
-    >
-      <DxCommonSeriesSettings argument-field="data" type="rangebar" />
-      <DxSeries
-        range-value1-field="aVal1"
-        range-value2-field="aVal2"
-        name="first joint"
-      />
-      <DxSeries
-        range-value1-field="bVal1"
-        range-value2-field="bVal2"
-        name="second joint"
-      />
-      <DxLegend
-        position="inside"
-        vertical-alignment="top"
-        horizontal-alignment="center"
-        items-alignment="left"
-      />
-      <DxLegend :visible="true" />
-    </DxChart>
-  </div>
+  <DxChart
+    id="chart"
+    :data-source="rightRange"
+    palette="Violet"
+    :rotated="true"
+  >
+    <DxCommonSeriesSettings argument-field="data" type="rangebar" />
+    <DxSeries
+      range-value1-field="aVal1"
+      range-value2-field="aVal2"
+      name="first joint"
+    />
+    <DxSeries
+      range-value1-field="bVal1"
+      range-value2-field="bVal2"
+      name="second joint"
+    />
+    <DxLegend
+      position="inside"
+      vertical-alignment="top"
+      horizontal-alignment="center"
+      items-alignment="left"
+    />
+    <DxLegend :visible="true" />
+  </DxChart>
 </template>
 
 <script>

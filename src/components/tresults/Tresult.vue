@@ -4,6 +4,36 @@
       <div class="wrapper">
         <div>
           <div></div>
+          <div class="name">Maximum Operation Range - Left</div>
+          <div class="desc">
+            - The motion range while performing the task(degree)
+          </div>
+          <div class="chart-title">
+            Left Hand
+          </div>
+          <left-range-chart :data="mrangeVals"></left-range-chart>
+        </div>
+      </div>
+    </div>
+    <div class="tresult">
+      <div class="wrapper">
+        <div>
+          <div></div>
+          <div class="name">Maximum Operation Range - Right</div>
+          <div class="desc">
+            - The motion range while performing the task(degree)
+          </div>
+          <div class="chart-title">
+            Right Hand
+          </div>
+          <right-range-chart :data="mrangeVals"></right-range-chart>
+        </div>
+      </div>
+    </div>
+    <div class="tresult">
+      <div class="wrapper">
+        <div>
+          <div></div>
           <div class="name">Exercise Time</div>
           <div class="desc">- Time taken to perform the task(s)</div>
           <!-- <div class="val">
@@ -23,25 +53,6 @@
             {{ taskResults[taskResults.length - 1].rtime }}
           </div> -->
           <response-chart class="chart" :data="rtime"></response-chart>
-        </div>
-      </div>
-    </div>
-    <div class="tresult">
-      <div class="wrapper">
-        <div>
-          <div></div>
-          <div class="name">Maximum Operation Range</div>
-          <div class="desc">
-            - The motion range while performing the task(degree)
-          </div>
-          <div class="chart-title">
-            Left Hand
-          </div>
-          <left-range-chart :data="mrangeVals"></left-range-chart>
-          <div class="chart-title">
-            Right Hand
-          </div>
-          <right-range-chart :data="mrangeVals"></right-range-chart>
         </div>
       </div>
     </div>
@@ -119,7 +130,6 @@ export default {
   position: relative;
   background-color: white;
   width: 400px;
-  max-width: 800px;
   /* flex-basis: auto; */
   flex: 1 1 auto;
   margin: 0 2vw 8vw;
@@ -128,29 +138,18 @@ export default {
   /* overflow: hidden; */
 }
 
-.tresult:nth-child(1) {
-  max-width: 500px;
-}
-.tresult:nth-child(2) {
-  max-width: 500px;
-}
-.tresult:nth-child(3) {
-  min-width: 600px;
-}
-/* .tresult:nth-child(3) {
-  max-width: 700px;
-} */
 .wrapper {
   width: 100%;
   height: 0;
   padding-bottom: 100%;
 }
 
-.tresult:nth-child(3) .wrapper {
+.tresult:nth-child(-n + 3) .wrapper {
   width: 100%;
   height: 0;
-  padding-bottom: 140%;
+  padding-bottom: 80%;
 }
+
 .wrapper > div {
   position: absolute;
   top: 0;
@@ -176,6 +175,7 @@ export default {
   padding-left: 9%;
   padding-top: 5%;
 }
+
 .desc {
   font-size: 0.9rem;
   /* font-weight: 600; */
@@ -193,9 +193,8 @@ export default {
   font-weight: 200;
   fill: #232323;
   cursor: default;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   padding-left: 38%;
-  padding-bottom: 2rem;
 }
 
 .val {
@@ -210,9 +209,8 @@ export default {
   height: 80%;
 }
 
-.rangechart {
+#chart {
   padding: 1rem 1rem 0.5rem;
-  height: 35%;
-  padding-bottom: 2rem;
+  height: 70%;
 }
 </style>
