@@ -20,4 +20,19 @@ function createPatient(patientInfo) {
   return instance.post('patients', patientInfo);
 }
 
-export { fetchPatients, createPatient, fetchPatientsName, fetchPcontents };
+function fetchTresults(pcontentInfo) {
+  return instance.post('tresults', pcontentInfo);
+}
+
+function fetchTaskTime(taskInfo) {
+  return instance.post('tresults/tkid', taskInfo);
+}
+
+export {
+  fetchPatients,
+  createPatient,
+  fetchPatientsName,
+  fetchPcontents,
+  fetchTresults,
+  fetchTaskTime,
+};

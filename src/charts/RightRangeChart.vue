@@ -46,50 +46,54 @@ export default {
   props: {
     data: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
   computed: {
     rightRange() {
-      let ret = [
-        {
-          data: 'Thumb',
-          aVal1: this.data.rThumbFirstMin,
-          aVal2: this.data.rThumbFirstMax,
-          bVal1: this.data.rThumbSecondMin,
-          bVal2: this.data.rThumbSecondMax,
-        },
-        {
-          data: 'Index Finger',
-          aVal1: this.data.rIndexFirstMin,
-          aVal2: this.data.rIndexFirstMax,
-          bVal1: this.data.rIndexSecondMin,
-          bVal2: this.data.rIndexSecondMax,
-        },
-        {
-          data: 'Middle Finger',
-          aVal1: this.data.rMiddleFirstMin,
-          aVal2: this.data.rMiddleFirstMax,
-          bVal1: this.data.rMiddleSecondMin,
-          bVal2: this.data.rMiddleSecondMax,
-        },
-        {
-          data: 'Ring Finger',
-          aVal1: this.data.rRingFirstMin,
-          aVal2: this.data.rRingFirstMax,
-          bVal1: this.data.rRingSecondMin,
-          bVal2: this.data.rRingSecondMax,
-        },
-        {
-          data: 'Pinky Finger',
-          aVal1: this.data.rPinkyFirstMin,
-          aVal2: this.data.rPinkyFirstMax,
-          bVal1: this.data.rPinkySecondMin,
-          bVal2: this.data.rPinkySecondMax,
-        },
-      ];
+      if (this.data === undefined) {
+        return {};
+      } else {
+        let ret = [
+          {
+            data: 'Thumb',
+            aVal1: this.data.rthumbfirstmin,
+            aVal2: this.data.rthumbfirstmax,
+            bVal1: this.data.rthumbsecondmin,
+            bVal2: this.data.rthumbsecondmax,
+          },
+          {
+            data: 'Index Finger',
+            aVal1: this.data.rindexfirstmin,
+            aVal2: this.data.rindexfirstmax,
+            bVal1: this.data.rindexsecondmin,
+            bVal2: this.data.rindexsecondmax,
+          },
+          {
+            data: 'Middle Finger',
+            aVal1: this.data.rmiddlefirstmin,
+            aVal2: this.data.rmiddlefirstmax,
+            bVal1: this.data.rmiddlesecondmin,
+            bVal2: this.data.rmiddlesecondmax,
+          },
+          {
+            data: 'Ring Finger',
+            aVal1: this.data.rringfirstmin,
+            aVal2: this.data.rringfirstmax,
+            bVal1: this.data.rringsecondmin,
+            bVal2: this.data.rringsecondmax,
+          },
+          {
+            data: 'Pinky Finger',
+            aVal1: this.data.rpinkyfirstmin,
+            aVal2: this.data.rpinkyfirstmax,
+            bVal1: this.data.rpinkysecondmin,
+            bVal2: this.data.rpinkysecondmax,
+          },
+        ];
 
-      return ret;
+        return ret;
+      }
     },
   },
 };

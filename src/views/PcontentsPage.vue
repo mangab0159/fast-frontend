@@ -98,6 +98,11 @@ export default {
       const { data } = await fetchPcontents(this.$route.params.ptid);
       this.isLoading = false;
       this.pcontentsInfoAll = data.pcontentsInfo;
+      this.pcontentsInfoAll.sort(function(a, b) {
+        if (a.pcid < b.pcid) return -1;
+        if (a.pcid > b.pcid) return 1;
+        return 0;
+      });
       let set = new Set();
       this.pcontentsInfoAll.forEach(pcontentInfo => {
         if (!set.has(pcontentInfo.ctid)) {
@@ -108,6 +113,7 @@ export default {
           });
         }
       });
+      console.log('pcontentInfoAll', this.pcontentsInfoAll);
     },
     contentFilter(ctid) {
       this.ctid = ctid;

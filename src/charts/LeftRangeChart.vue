@@ -81,50 +81,54 @@ export default {
   props: {
     data: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
   computed: {
     leftRange() {
-      let ret = [
-        {
-          data: 'Thumb',
-          aVal1: this.data.lThumbFirstMin,
-          aVal2: this.data.lThumbFirstMax,
-          bVal1: this.data.lThumbSecondMin,
-          bVal2: this.data.lThumbSecondMax,
-        },
-        {
-          data: 'Index Finger',
-          aVal1: this.data.lIndexFirstMin,
-          aVal2: this.data.lIndexFirstMax,
-          bVal1: this.data.lIndexSecondMin,
-          bVal2: this.data.lIndexSecondMax,
-        },
-        {
-          data: 'Middle Finger',
-          aVal1: this.data.lMiddleFirstMin,
-          aVal2: this.data.lMiddleFirstMax,
-          bVal1: this.data.lMiddleSecondMin,
-          bVal2: this.data.lMiddleSecondMax,
-        },
-        {
-          data: 'Ring Finger',
-          aVal1: this.data.lRingFirstMin,
-          aVal2: this.data.lRingFirstMax,
-          bVal1: this.data.lRingSecondMin,
-          bVal2: this.data.lRingSecondMax,
-        },
-        {
-          data: 'Pinky Finger',
-          aVal1: this.data.lPinkyFirstMin,
-          aVal2: this.data.lPinkyFirstMax,
-          bVal1: this.data.lPinkySecondMin,
-          bVal2: this.data.lPinkySecondMax,
-        },
-      ];
+      if (this.data === undefined) {
+        return [];
+      } else {
+        let ret = [
+          {
+            data: 'Thumb',
+            aVal1: this.data.lthumbfirstmin,
+            aVal2: this.data.lthumbfirstmax,
+            bVal1: this.data.lthumbsecondmin,
+            bVal2: this.data.lthumbsecondmax,
+          },
+          {
+            data: 'Index Finger',
+            aVal1: this.data.lindexfirstmin,
+            aVal2: this.data.lindexfirstmax,
+            bVal1: this.data.lindexsecondmin,
+            bVal2: this.data.lindexsecondmax,
+          },
+          {
+            data: 'Middle Finger',
+            aVal1: this.data.lmiddlefirstmin,
+            aVal2: this.data.lmiddlefirstmax,
+            bVal1: this.data.lmiddlesecondmin,
+            bVal2: this.data.lmiddlesecondmax,
+          },
+          {
+            data: 'Ring Finger',
+            aVal1: this.data.lringfirstmin,
+            aVal2: this.data.lringfirstmax,
+            bVal1: this.data.lringsecondmin,
+            bVal2: this.data.lringsecondmax,
+          },
+          {
+            data: 'Pinky Finger',
+            aVal1: this.data.lpinkyfirstmin,
+            aVal2: this.data.lpinkyfirstmax,
+            bVal1: this.data.lpinkysecondmin,
+            bVal2: this.data.lpinkysecondmax,
+          },
+        ];
 
-      return ret;
+        return ret;
+      }
     },
   },
 };

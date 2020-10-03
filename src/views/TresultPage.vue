@@ -9,7 +9,7 @@
           :key="num"
           :class="{ active: num == 1 }"
         >
-          <a href="javascript:;"> Task {{ tkcds[num - 1].tkid }}</a>
+          <a href="javascript:;"> Task {{ tkcds[num - 1].tkid - 100 }}</a>
         </div>
       </div>
     </div>
@@ -20,8 +20,7 @@
 <script>
 import SearchBar from '@/components/common/SearchBar.vue';
 import TaskResult from '@/components/tresults/Tresult.vue';
-import taskResults from '@/data/data3.js';
-import { tkcds } from '@/data/tkcds.js';
+import { fetchTresults, fetchTaskTime } from '@/api';
 
 export default {
   components: {
@@ -33,47 +32,47 @@ export default {
       ptid: this.$route.params.ptid,
       ctid: this.$route.params.ctid,
       pcid: this.$route.params.pcid,
-      tknum: this.$route.params.tknum,
+      tknum: null,
       tkcds: [],
       tkSelected: 1,
       tkidData: {},
-      taskResults: [],
+      tkidDataLen: -1,
     };
   },
   computed: {
     ertimeVals() {
-      let tkid = this.tkcds[this.tkSelected - 1].tkid;
-      let cdatetime = this.tkcds[this.tkSelected - 1].cdatetime;
-      console.log('cdatetime', cdatetime);
-      let ret = [];
-      let cnt = 0;
-      // this.tkidData[tkid] should be orderd by cdatetime descending
-      for (
-        let idx = 0;
-        idx < this.tkidData.get(tkid).length && cnt <= 12;
-        idx++
-      ) {
-        console.log(idx);
-        console.log('tkidData.get(tkid)[idx]', this.tkidData.get(tkid)[idx]);
-
-        if (this.tkidData.get(tkid)[idx].cdatetime < cdatetime) {
-          ret[cnt] = this.tkidData.get(tkid)[idx];
-          cnt++;
+      if (this.tkidData.size !== this.tkidDataLen) {
+        console.log('ertimeVals tkidData size', this.tkidData.size);
+        return [];
+      } else {
+        console.log('ertimeVals computed');
+        let tkid = this.tkcds[this.tkSelected - 1].tkid;
+        let cdatetime = this.tkcds[this.tkSelected - 1].cdatetime;
+        let ret = [];
+        let cnt = 0;
+        // this.tkidData[tkid] should be orderd by cdatetime descending
+        for (
+          let idx = this.tkidData.get(tkid).length - 1;
+          idx >= 0 && cnt <= 12;
+          idx--
+        ) {
+          if (this.tkidData.get(tkid)[idx].cdatetime <= cdatetime) {
+            ret[cnt] = this.tkidData.get(tkid)[idx];
+            cnt++;
+          }
         }
+        return ret;
       }
-      console.log('ertimeVal', ret);
-      console.log('cnt', cnt);
-      return ret;
     },
     mrangeVals() {
-      return this.tkcds[this.tkSelected - 1];
+      if (this.tkcds === []) {
+        return {};
+      } else return this.tkcds[this.tkSelected - 1];
     },
   },
   methods: {
     removeClassAll(className) {
       var tabs = document.querySelectorAll('.tabs > div');
-      // console.log(tabs);
-      // console.log(className);
       var check = new RegExp('(\\s|^)' + className + '(\\s|$)');
       for (let i = 0; i < tabs.length; i++) {
         tabs[i].className = tabs[i].className.replace(check, ' ').trim();
@@ -81,21 +80,18 @@ export default {
     },
     beActive(num, event) {
       this.removeClassAll('active');
-      // console.log('clicked', num);
-      // console.log('event', event);
       event.currentTarget.className += ' active';
       this.tkSelected = num;
       console.log('tkSelectd', this.tkSelected);
     },
   },
-  created() {
-    console.log('params', this.$route.params);
+  async created() {
     // ptid, ctid, pcid same all tkcds array
     // including tkid, cdatetime, rangeValue
-    this.tkcds = tkcds;
-    // this.tkcds[tkSelected - 1] ==> props for rangeChart
-    // don't worry about that
-    // only worry about etime, rtime
+    const { data } = await fetchTresults(this.$route.params);
+    this.tkcds = data.tkcds;
+    this.tknum = this.tkcds.length;
+
     var tkidCdatePair = new Map();
     for (let idx = 0; idx < this.tkcds.length; idx++) {
       let tkid = this.tkcds[idx].tkid;
@@ -104,21 +100,21 @@ export default {
     }
 
     this.tkidData = new Map();
-    // for (let [key, value] of this.tkidCdatePair.entries()) {
-    for (let key of tkidCdatePair.keys()) {
+    for (let [key, value] of tkidCdatePair.entries()) {
       // key == tkid && value == cdatetime
       // fetch 30 rows of same tkid, ptid, ctid before cdatetime
-      // order by cdatetime
-      const data = taskResults[key - 1];
-      this.tkidData.set(key, data);
+      // order by cdatetime descending
+      const taskInfo = {
+        ptid: this.$route.params.ptid,
+        ctid: this.$route.params.ctid,
+        tkid: key,
+        cdatetime: value,
+      };
+      const { data } = await fetchTaskTime(taskInfo);
+      this.tkidData.set(key, data.taskTimes);
     }
 
-    // console.log('tastResults', taskResults);
-    // console.log('tknum', this.tknum);
-    // console.log('taskResultSliced', this.taskResultSliced);
-    console.log('tkidData', this.tkidData);
-    console.log('tkidCdatePair', tkidCdatePair);
-    console.log('abc');
+    this.tkidDataLen = tkidCdatePair.size;
   },
 };
 </script>

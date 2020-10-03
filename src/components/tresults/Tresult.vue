@@ -75,30 +75,10 @@ export default {
     },
     mrangeVals: {
       type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    deepCopy(obj) {
-      var clone = {};
-      if (typeof obj === Object && obj !== null) {
-        for (var key in obj) {
-          clone[key] = this.deepCopy(obj[key]);
-        }
-      } else clone = obj;
-      return clone;
+      required: false,
     },
   },
   computed: {
-    // etime: function() {
-    //   console.log('etime changed');
-    //   var ret = this.deepCopy(this.etimeBase);
-    //   ret.datasets[0].data = [];
-    //   for (var i = 0; i < this.taskResults.length; i++) {
-    //     ret.datasets[0].data[i] = this.taskResults[i].etime;
-    //   }
-    //   return ret;
-    // },
     etime() {
       let ret = [];
       for (var i = 0; i < this.ertimeVals.length; i++) {
@@ -111,14 +91,10 @@ export default {
       for (var i = 0; i < this.ertimeVals.length; i++) {
         ret[i] = this.ertimeVals[i].rtime;
       }
-      console.log('etime', ret);
       return ret;
     },
   },
-  created() {
-    console.log('ertimeVals', this.ertimeVals);
-    // console.log('props.taskResults', this.taskResults);
-  },
+  created() {},
 };
 </script>
 <style scoped>
