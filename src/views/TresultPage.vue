@@ -88,33 +88,56 @@ export default {
   async created() {
     // ptid, ctid, pcid same all tkcds array
     // including tkid, cdatetime, rangeValue
-    const { data } = await fetchTresults(this.$route.params);
-    this.tkcds = data.tkcds;
+    const tresultsData = await fetchTresults(this.$route.params);
+    this.tkcds = tresultsData.data.tkcds;
     this.tknum = this.tkcds.length;
 
-    var tkidCdatePair = new Map();
+    var tkidCdateMap = new Map();
     for (let idx = 0; idx < this.tkcds.length; idx++) {
       let tkid = this.tkcds[idx].tkid;
       let cdatetime = this.tkcds[idx].cdatetime;
-      tkidCdatePair.set(tkid, cdatetime);
+      tkidCdateMap.set(tkid, cdatetime);
     }
+
+    // key == tkid && value == cdatetime
+    // fetch 30 rows of same tkid, ptid, ctid before cdatetime
+    // order by cdatetime descending
+
+    let tkidCdateArr = [];
+    for (let [key, value] of tkidCdateMap.entries()) {
+      tkidCdateArr.push({ tkid: key, cdatetime: value });
+    }
+
+    const taskInfo = {
+      ptid: this.$route.params.ptid,
+      ctid: this.$route.params.ctid,
+      tkidCdateArr,
+    };
+    console.log('taskInfo', taskInfo);
+    const taskTimeData = await fetchTaskTime(taskInfo);
+
+    console.log('taskTimeData', taskTimeData);
 
     this.tkidData = new Map();
-    for (let [key, value] of tkidCdatePair.entries()) {
-      // key == tkid && value == cdatetime
-      // fetch 30 rows of same tkid, ptid, ctid before cdatetime
-      // order by cdatetime descending
-      const taskInfo = {
-        ptid: this.$route.params.ptid,
-        ctid: this.$route.params.ctid,
-        tkid: key,
-        cdatetime: value,
-      };
-      const { data } = await fetchTaskTime(taskInfo);
-      this.tkidData.set(key, data.taskTimes);
+
+    let taskTimeArr = [];
+    let tkidBefore = taskTimeData.data.taskTimes[0].tkid;
+    for (let i = 0; i < taskTimeData.data.taskTimes.length; i++) {
+      if (tkidBefore == taskTimeData.data.taskTimes[i].tkid) {
+        taskTimeArr.push(taskTimeData.data.taskTimes[i]);
+      } else {
+        this.tkidData.set(tkidBefore, taskTimeArr);
+        taskTimeArr = [];
+        tkidBefore = taskTimeData.data.taskTimes[i].tkid;
+        taskTimeArr.push(taskTimeData.data.taskTimes[i]);
+      }
     }
 
-    this.tkidDataLen = tkidCdatePair.size;
+    this.tkidData.set(tkidBefore, taskTimeArr);
+
+    console.log('tkidData', this.tkidData);
+
+    this.tkidDataLen = tkidCdateMap.size;
   },
 };
 </script>
