@@ -8,7 +8,7 @@ function fetchPatients() {
   return instance.get('patients');
 }
 
-function fetchPatientsName(ptname) {
+function fetchPatientsByName(ptname) {
   return instance.get(`patients/${ptname}`);
 }
 
@@ -31,7 +31,7 @@ function fetchTaskTime(taskInfo) {
 export {
   fetchPatients,
   createPatient,
-  fetchPatientsName,
+  fetchPatientsByName,
   fetchPcontents,
   fetchTresults,
   fetchTaskTime,

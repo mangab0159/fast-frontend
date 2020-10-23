@@ -8,11 +8,11 @@
       <template v-else>
         <table>
           <tr class="table-head">
-            <th class="column1">이름</th>
-            <th>나이</th>
-            <th>환자번호</th>
-            <th>전화번호</th>
-            <th>등록일</th>
+            <th class="column1">Name</th>
+            <th>Age</th>
+            <th>Patient ID</th>
+            <th>Phone Number</th>
+            <th>Registration Date</th>
           </tr>
           <PatientsList
             v-for="patientInfo in patientsInfo"
@@ -21,15 +21,8 @@
           ></PatientsList>
         </table>
 
-        <div class="bg">
-          <!-- <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div> -->
-        </div>
+        <div class="bg"></div>
       </template>
-      <!-- <button @click.prevent="clickBtn">추가</button> -->
     </div>
   </div>
 </template>
@@ -37,7 +30,7 @@
 <script>
 import SearchBar from '@/components/common/SearchBar.vue';
 import PatientsList from '@/components/patients/PatientsList.vue';
-import { fetchPatients, fetchPatientsName } from '@/api';
+import { fetchPatients, fetchPatientsByName } from '@/api';
 
 export default {
   components: {
@@ -46,56 +39,37 @@ export default {
   },
   data() {
     return {
-      patientsInfo: [],
-      isLoading: false,
-      logMessage: '',
+      patientsInfo: [], // Array of objects including ptid, ptname, ptage, etc fetched from back-end server
+      isLoading: false, // Flag showing whether fetching data from back-end server is done or not
     };
   },
   methods: {
-    async fetchData() {
-      this.isLoading = true;
-      const ptname = this.$route.params.ptname;
+    // Function to fetch information of patients from back-end server
+    async fetchPatientsInfo() {
+      this.isLoading = true; // First, make isLoading flag true and after fetching data, make the flag false
+      const ptname = this.$route.params.ptname; // The constant that stores the name searched in SearchBar component
       if (ptname === undefined) {
+        // Ptname of undefined means that users didn't serach a name
         try {
           const { data } = await fetchPatients();
-          this.isLoading = false;
           this.patientsInfo = data.patientsInfo;
         } catch (error) {
           console.log(error);
-          // console.log(error.response.data);
-          // this.logMessage = error.response.data;
         }
       } else {
         try {
-          const { data } = await fetchPatientsName(ptname);
-          this.isLoading = false;
+          const { data } = await fetchPatientsByName(ptname);
           this.patientsInfo = data.patientsInfo;
-          console.log('this.patientsInfo: ', this.patientsInfo);
-          console.log('data.patientsInfo: ', data.patientsInfo);
         } catch (error) {
           console.log(error);
         }
       }
-      console.log('fetchData finished');
+      this.isLoading = false;
     },
-    // async clickBtn() {
-    //   try {
-    //     await createPatient({
-    //       ptid: 4,
-    //       ptname: '박성원',
-    //       ptphone: '01088886558',
-    //     });
-    //     this.$router.push('/patients');
-    //   } catch (error) {
-    //     console.log(error);
-    // console.log(error.response.data.message);
-    // this.logMessage = error.response.data.message;
-    // }
-    // },
   },
   created() {
-    console.log('PatientsPage.vue created');
-    this.fetchData();
+    // fetching information of patients from MySQL
+    this.fetchPatientsInfo();
   },
 };
 </script>
@@ -104,14 +78,13 @@ table {
   border-collapse: collapse;
   background-color: #fff;
   width: 70%;
-  min-width: 500px;
   border-spacing: 2px;
   border-radius: 10px;
-  -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
   position: absolute;
   top: 105px;
   left: 50%;
-  margin-left: -35%;
+  margin-left: -37%;
 }
 
 th {
@@ -128,7 +101,7 @@ th {
 }
 
 .table-head {
-  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 .bg {
@@ -143,26 +116,4 @@ th {
   background-size: cover;
   opacity: 0.5;
 }
-
-/* .bg > div { */
-/* width: auto;
-  height: 17vh; */
-/* height: 28vh;
-  background-image: url('../assets/section1.png');
-  background-position: right bottom;
-  background-attachment: fixed;
-  opacity: 0.7;
-}
-
-.bg > div:nth-child(1) {
-  margin-top: 50px;
-}
-
-.bg > div:nth-child(odd) {
-  height: 28vh;
-  background-image: url('../assets/section1.png');
-  background-position: right bottom;
-  background-attachment: fixed;
-  opacity: 0.7;
-} */
 </style>
