@@ -7,45 +7,50 @@
       </template>
       <template v-else>
         <div class="wrap">
-          <!-- <div class="jumbotron">
-            <h1>FAST</h1>
-            <p class="desc">
-              Patients can rehabiltate their upper limbs using embeded devices
-              with VR contents by this service.
-            </p>
-          </div> -->
-          <div class="button-wrap">
-            <b-dropdown
-              id="dropdown-1"
-              text="컨텐츠 필터"
-              class="m-md-2"
-              variant="white border-secondary"
-              size="sm"
-            >
-              <b-dropdown-item href="javascript:;" @click="selectAllContents">
-                <div>전체보기</div>
-              </b-dropdown-item>
-              <PcontentButton
-                v-for="pcontentName in pcontentNames"
-                :key="pcontentName.ctid"
-                :pcontentName="pcontentName"
-                @filterContent="contentFilter"
-              ></PcontentButton>
-            </b-dropdown>
+          <h1>{{ this.ptname }}</h1>
+          <div class="patient-info">
+            <div>Age: {{ this.ptage }}</div>
+            <div>Total play count: {{ this.totalPlayCount }}</div>
+            <div>Last play date: {{ this.lastPlayDate }}</div>
+            <div>First play date: {{ this.firstPlayDate }}</div>
           </div>
-          <!-- <div class="cards-header-items">
-            <a href="javascript:;" @click="selectAllContents">
-              <div class="cards-header-item">
-                전체보기
-              </div>
-            </a>
-            <PcontentButton
-              v-for="pcontentName in pcontentNames"
-              :key="pcontentName.ctid"
-              :pcontentName="pcontentName"
-              @filterContent="contentFilter"
-            ></PcontentButton>
-          </div> -->
+          <div class="button-wrap">
+            <div class="b-button">
+              <b-dropdown
+                id="dropdown-1"
+                text="컨텐츠 필터"
+                class="m-md-2"
+                variant="white border-secondary"
+                size="sm"
+              >
+                <b-dropdown-item @click.prevent="selectAllContents">
+                  <div>전체보기</div>
+                </b-dropdown-item>
+                <PcontentButton
+                  v-for="pcontentName in pcontentNames"
+                  :key="pcontentName.ctid"
+                  :pcontentName="pcontentName"
+                  @filterContent="contentFilter"
+                ></PcontentButton>
+              </b-dropdown>
+            </div>
+            <div class="b-button">
+              <b-dropdown
+                id="dropdown-1"
+                text="날짜순 정렬"
+                class="m-md-2 lang-dropdown"
+                variant="white border-secondary"
+                size="sm"
+              >
+                <b-dropdown-item @click.prevent="sortContentAscending">
+                  <div>오래된 순</div>
+                </b-dropdown-item>
+                <b-dropdown-item @click.prevent="sortContentDescending">
+                  <div>최신순</div>
+                </b-dropdown-item>
+              </b-dropdown>
+            </div>
+          </div>
           <div class="cards-body">
             <PcontentsList
               v-for="pcontentInfo in pcontentsInfo"
@@ -64,7 +69,6 @@ import SearchBar from '@/components/common/SearchBar.vue';
 import PcontentButton from '@/components/pcontents/PcontentButton.vue';
 import PcontentsList from '@/components/pcontents/PcontentsList.vue';
 import { fetchPcontents } from '@/api';
-// import { createLogger } from 'vuex';
 
 export default {
   components: {
@@ -74,11 +78,15 @@ export default {
   },
   data() {
     return {
-      pcontentsInfoAll: [],
-      isLoading: false,
-      logMessage: '',
+      pcontentsInfoAll: [], // Array of objects including ptid, ctid, pcid, etc fetched from back-end server
+      isLoading: false, // Flag showing whether fetching data from back-end server is done or not
       pcontentNames: [],
       ctid: null,
+      ptname: ' ' + this.$route.params.ptname,
+      ptage: ' ' + this.$route.params.ptage,
+      totalPlayCount: null,
+      lastPlayDate: '',
+      firstPlayDate: '',
     };
   },
   computed: {
@@ -93,16 +101,34 @@ export default {
     },
   },
   methods: {
-    async fetchData() {
+    async fetchPcontentsData() {
       this.isLoading = true;
-      const { data } = await fetchPcontents(this.$route.params.ptid);
+      const pcontentsInfoAllData = await fetchPcontents(
+        this.$route.params.ptid,
+      );
       this.isLoading = false;
-      this.pcontentsInfoAll = data.pcontentsInfo;
+      this.pcontentsInfoAll = pcontentsInfoAllData.data.pcontentsInfo;
+      this.totalPlayCount = ' ' + this.pcontentsInfoAll.length;
       this.pcontentsInfoAll.sort(function(a, b) {
-        if (a.pcid < b.pcid) return -1;
-        if (a.pcid > b.pcid) return 1;
+        if (a.pcid > b.pcid) return -1;
+        if (a.pcid < b.pcid) return 1;
         return 0;
       });
+      let lastPlayCdate = this.pcontentsInfoAll[0].cdate;
+      this.lastPlayDate = ` ${lastPlayCdate.substring(
+        6,
+        8,
+      )}. ${lastPlayCdate.substring(4, 6)}. ${lastPlayCdate.substring(0, 4)}.`;
+      let firstPlayCdate = this.pcontentsInfoAll[
+        this.pcontentsInfoAll.length - 1
+      ].cdate;
+      this.firstPlayDate = ` ${firstPlayCdate.substring(
+        6,
+        8,
+      )}. ${firstPlayCdate.substring(4, 6)}. ${firstPlayCdate.substring(
+        0,
+        4,
+      )}.`;
       let set = new Set();
       this.pcontentsInfoAll.forEach(pcontentInfo => {
         if (!set.has(pcontentInfo.ctid)) {
@@ -113,7 +139,6 @@ export default {
           });
         }
       });
-      console.log('pcontentInfoAll', this.pcontentsInfoAll);
     },
     contentFilter(ctid) {
       this.ctid = ctid;
@@ -121,25 +146,45 @@ export default {
     selectAllContents() {
       this.ctid = null;
     },
+    sortContentAscending() {
+      this.pcontentsInfoAll.sort(function(a, b) {
+        if (a.pcid < b.pcid) return -1;
+        if (a.pcid > b.pcid) return 1;
+        return 0;
+      });
+    },
+    sortContentDescending() {
+      this.pcontentsInfoAll.sort(function(a, b) {
+        if (a.pcid > b.pcid) return -1;
+        if (a.pcid < b.pcid) return 1;
+        return 0;
+      });
+    },
   },
   created() {
-    console.log('PcontentsPage.vue created');
-    this.fetchData();
+    this.fetchPcontentsData();
   },
 };
 </script>
 <style scoped>
-.jumbotron {
-  padding-bottom: 2vw;
-  text-align: center;
-  background-color: transparent;
-  margin-bottom: 0px;
+h1 {
+  font-family: 'Avenir', 'Lato', '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo',
+    '나눔바른고딕', 'NanumBarunGothic', '나눔고딕', 'NanumGothic', '맑은 고딕',
+    'Malgun Gothic', '돋움', 'dotum', 'AppleGothic', 'sans-serif';
+  letter-spacing: 2.5px;
+  padding-top: 1vw;
 }
 
-.jumbotron > h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
+.patient-info div {
+  font-family: 'Avenir', 'Lato', '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo',
+    '나눔바른고딕', 'NanumBarunGothic', '나눔고딕', 'NanumGothic', '맑은 고딕',
+    'Malgun Gothic', '돋움', 'dotum', 'AppleGothic', 'sans-serif';
+  font-size: 1.1rem;
+  letter-spacing: -0.5px;
+  word-spacing: -0.5px;
+  float: left;
+  padding: 1.2vw 2vw 0.5vw 0;
+  white-space: pre;
 }
 
 .wrap {
@@ -149,15 +194,8 @@ export default {
   margin-bottom: 6rem;
 }
 
-/* .cards-header-items {
-  margin: 10px auto 2rem;
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-columns: repeat(auto-fill, minmax(50px, 120px));
-  grid-column-gap: 7px;
-} */
-
 .cards-body {
+  clear: both;
   margin-top: 10px;
   display: grid;
   grid-auto-flow: row;
@@ -166,11 +204,15 @@ export default {
 }
 
 .button-wrap {
-  margin-bottom: 2rem;
+  clear: both;
 }
-/* b-dropdown #dropdown-1 {
-  color: rgb(38, 63, 82);
-  background-color: #ffffff;
-  border-color: #6c757d;
-} */
+
+.b-button {
+  padding: 1rem 0 2rem 0.5vw;
+  float: right;
+}
+
+.dropdown-menu {
+  min-width: 1rem;
+}
 </style>

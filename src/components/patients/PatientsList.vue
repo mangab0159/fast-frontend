@@ -24,7 +24,14 @@ export default {
   },
 
   created() {
-    this.pcontentLink = `/pcontents/${this.patientInfo.ptid}`;
+    this.pcontentLink = {
+      name: 'pcontent',
+      params: {
+        ptid: this.patientInfo.ptid,
+        ptname: this.patientInfo.ptname,
+        ptage: this.patientInfo.ptage,
+      },
+    };
   },
 };
 </script>

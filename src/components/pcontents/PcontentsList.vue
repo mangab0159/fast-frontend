@@ -79,13 +79,19 @@ export default {
 }
 
 .card .score {
+  font-family: 'Avenir', 'Lato', '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo',
+    '나눔바른고딕', 'NanumBarunGothic', '나눔고딕', 'NanumGothic', '맑은 고딕',
+    'Malgun Gothic', '돋움', 'dotum', 'AppleGothic', 'sans-serif';
   font-size: 15px;
-  padding-left: 6px;
+  font-weight: 500;
+  padding-left: 10px;
 }
 .card .cdate {
+  font-family: 'Avenir', 'Lato', '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo',
+    '나눔바른고딕', 'NanumBarunGothic', '나눔고딕', 'NanumGothic', '맑은 고딕',
+    'Malgun Gothic', '돋움', 'dotum', 'AppleGothic', 'sans-serif';
   font-size: 14px;
-  color: rgb(211, 211, 211);
-  padding-right: 5px;
+  padding-right: 10px;
 }
 .card .ctname {
   font-size: 16px;

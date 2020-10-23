@@ -18,6 +18,7 @@ const routes = [
   },
   {
     path: '/pcontents/:ptid',
+    name: 'pcontent',
     component: () => import('@/views/PcontentsPage.vue'),
   },
   {
