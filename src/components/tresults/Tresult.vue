@@ -34,7 +34,7 @@
       <div class="wrapper">
         <div>
           <div></div>
-          <div class="name">Exercise Time</div>
+          <div class="name">Exercise Time - {{ etime[etime.length - 1] }}s</div>
           <div class="desc">- Time taken to perform the task(s)</div>
           <!-- <div class="val">
             {{ taskResults[taskResults.length - 1].etime }}
@@ -47,7 +47,9 @@
       <div class="wrapper">
         <div>
           <div></div>
-          <div class="name">Response Time</div>
+          <div class="name">
+            Response Time - {{ rtime[rtime.length - 1] }}ms
+          </div>
           <div class="desc">- Time taken to respond to the task(ms)</div>
           <!-- <div class="val">
             {{ taskResults[taskResults.length - 1].rtime }}
