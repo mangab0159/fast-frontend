@@ -13,14 +13,18 @@
         </div>
       </div>
     </div>
-    <TaskResult :ertimeVals="ertimeVals" :mrangeVals="mrangeVals"></TaskResult>
+    <TaskResult
+      :handGraphVals="handGraphVals"
+      :ertimeVals="ertimeVals"
+      :mrangeVals="mrangeVals"
+    ></TaskResult>
   </div>
 </template>
 
 <script>
 import SearchBar from '@/components/common/SearchBar.vue';
 import TaskResult from '@/components/tresults/Tresult.vue';
-import { fetchTresults, fetchTaskTime } from '@/api';
+import { fetchTresults, fetchTaskTime, fetchHandData } from '@/api';
 
 export default {
   components: {
@@ -37,15 +41,16 @@ export default {
       tkSelected: 1,
       tkidData: {},
       tkidDataLen: -1,
+      isHandDataReady: false,
     };
   },
   computed: {
     ertimeVals() {
       if (this.tkidData.size !== this.tkidDataLen) {
-        console.log('ertimeVals tkidData size', this.tkidData.size);
+        // console.log('ertimeVals tkidData size', this.tkidData.size);
         return [];
       } else {
-        console.log('ertimeVals computed');
+        // console.log('ertimeVals computed');
         let tkid = this.tkcds[this.tkSelected - 1].tkid;
         let cdatetime = this.tkcds[this.tkSelected - 1].cdatetime;
         let ret = [];
@@ -69,6 +74,23 @@ export default {
         return {};
       } else return this.tkcds[this.tkSelected - 1];
     },
+    handGraphVals() {
+      if (this.isHandDataReady === false) {
+        return [];
+      } else {
+        let ret = [];
+        let tkid = this.tkcds[this.tkSelected - 1].tkid;
+        let cdatetime = this.tkcds[this.tkSelected - 1].cdatetime;
+        let cnt = 0;
+        let handDataArr = this.handDataMap.get(tkid);
+        for (let i = 0; i < handDataArr.length && cnt < 12; i++) {
+          if (handDataArr[i].cdatetime <= cdatetime) {
+            ret[cnt++] = handDataArr[i];
+          }
+        }
+        return ret;
+      }
+    },
   },
   methods: {
     removeClassAll(className) {
@@ -82,7 +104,7 @@ export default {
       this.removeClassAll('active');
       event.currentTarget.className += ' active';
       this.tkSelected = num;
-      console.log('tkSelectd', this.tkSelected);
+      // console.log('tkSelectd', this.tkSelected);
     },
   },
   async created() {
@@ -113,10 +135,11 @@ export default {
       ctid: this.$route.params.ctid,
       tkidCdateArr,
     };
+
     console.log('taskInfo', taskInfo);
     const taskTimeData = await fetchTaskTime(taskInfo);
 
-    console.log('taskTimeData', taskTimeData);
+    // console.log('taskTimeData', taskTimeData);
 
     this.tkidData = new Map();
 
@@ -135,9 +158,29 @@ export default {
 
     this.tkidData.set(tkidBefore, taskTimeArr);
 
-    console.log('tkidData', this.tkidData);
+    // console.log('tkidData', this.tkidData);
 
     this.tkidDataLen = tkidCdateMap.size;
+    console.log('start');
+    const handData = await fetchHandData(taskInfo);
+    console.log('finish');
+    this.handDataMap = new Map();
+
+    let handDataArr = [];
+    tkidBefore = 0;
+    for (let i = 0; i < handData.data.handData.length; i++) {
+      if (handData.data.handData[i].tkid == tkidBefore) {
+        handDataArr.push(handData.data.handData[i]);
+      } else {
+        this.handDataMap.set(tkidBefore, handDataArr);
+        tkidBefore = handData.data.handData[i].tkid;
+        handDataArr = [];
+        handDataArr.push(handData.data.handData[i]);
+      }
+    }
+
+    this.handDataMap.set(tkidBefore, handDataArr);
+    this.isHandDataReady = true;
   },
 };
 </script>

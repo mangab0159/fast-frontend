@@ -28,6 +28,10 @@ function fetchTaskTime(taskInfo) {
   return instance.post('tresults/tkid', taskInfo);
 }
 
+function fetchHandData(taskInfo) {
+  return instance.post('tresults/handData', taskInfo);
+}
+
 export {
   fetchPatients,
   createPatient,
@@ -35,4 +39,5 @@ export {
   fetchPcontents,
   fetchTresults,
   fetchTaskTime,
+  fetchHandData,
 };

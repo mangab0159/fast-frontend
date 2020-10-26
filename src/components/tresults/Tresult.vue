@@ -11,7 +11,23 @@
           <div class="chart-title">
             Left Hand
           </div>
-          <left-range-chart :data="mrangeVals"></left-range-chart>
+          <!-- <div
+            class="tooltipGraph"
+            @mouseout="removeTooltip"
+            :class="{ transition: this.fingerHovered !== '' }"
+          >
+            <LeftRangeGraph></LeftRangeGraph>
+          </div> -->
+          <!-- <div class="tooltipGraph"></div> -->
+          <left-range-graph
+            :fingerHovered="fingerHovered"
+            :fingerHoveredVals="fingerHoveredVals"
+            @hoverOut="removeTooltip"
+          ></left-range-graph>
+          <left-range-chart
+            @hover="showTooltip"
+            :rangeData="mrangeVals"
+          ></left-range-chart>
         </div>
       </div>
     </div>
@@ -73,6 +89,7 @@ import ExerciseChart from '@/charts/ExerciseChart.vue';
 import ResponseChart from '@/charts/ResponseChart.vue';
 import LeftRangeChart from '@/charts/LeftRangeChart.vue';
 import RightRangeChart from '@/charts/RightRangeChart.vue';
+import LeftRangeGraph from '@/charts/LeftRangeGraph.vue';
 
 export default {
   components: {
@@ -80,6 +97,7 @@ export default {
     ResponseChart,
     LeftRangeChart,
     RightRangeChart,
+    LeftRangeGraph,
   },
   props: {
     ertimeVals: {
@@ -90,6 +108,16 @@ export default {
       type: Object,
       required: false,
     },
+    handGraphVals: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      fingerHovered: '',
+      fingerHoveredVals: [],
+    };
   },
   computed: {
     etime() {
@@ -105,6 +133,25 @@ export default {
         ret[i] = this.ertimeVals[i].rtime;
       }
       return ret;
+    },
+    // leftHandGraphVals() {},
+  },
+  methods: {
+    showTooltip(fingerHovered) {
+      // let
+      let ret = [];
+      for (let i = this.handGraphVals.length - 1; i >= 0; i--) {
+        ret[i] = {
+          min: this.handGraphVals[i][fingerHovered + 'min'],
+          max: this.handGraphVals[i][fingerHovered + 'max'],
+        };
+      }
+      this.fingerHoveredVals = ret;
+      this.fingerHovered = fingerHovered;
+    },
+    removeTooltip() {
+      this.fingerHoveredVals = [];
+      this.fingerHovered = '';
     },
   },
   created() {},
@@ -149,7 +196,7 @@ export default {
 .tresult:nth-child(-n + 3) .wrapper {
   width: 100%;
   height: 0;
-  padding-bottom: 80%;
+  padding-bottom: 100%;
 }
 
 .wrapper > div {
@@ -196,8 +243,14 @@ export default {
   fill: #232323;
   cursor: default;
   padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
   padding-left: 38%;
 }
+/* 
+#chart {
+  padding: 1rem 1rem 0.5rem;
+  height: 60%;
+} */
 
 .val {
   font-size: 1rem;
@@ -211,8 +264,11 @@ export default {
   height: 80%;
 }
 
-#chart {
+/* .tooltipGraph > div {
+  position: relative;
+  width: 100%;
+  height: 100%;
   padding: 1rem 1rem 0.5rem;
-  height: 70%;
-}
+  z-index: 100;
+} */
 </style>
