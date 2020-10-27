@@ -1,18 +1,26 @@
 <template>
-  <div
-    class="tooltipGraph"
-    :class="{ transition: this.fingerHovered !== '' }"
-    @mouseout="removeTooltip"
-  >
+  <div class="tooltipGraph" :class="{ transition: this.fingerHovered !== '' }">
+    <div>
+      <img
+        class="closeIcon"
+        @click="removeTooltip"
+        src="../assets/closeIcon16.png"
+      />
+    </div>
     <DxChart
       class="historyGraph"
       :data-source="rangeHistory"
       :class="{ transition: this.fingerHovered !== '' }"
     >
-      <DxCommonSeriesSettings argument-field="data" type="spline" />
+      <DxCommonSeriesSettings
+        argument-field="data"
+        type="spline"
+        :point="pointSetting"
+        hover-mode="none"
+      />
       <DxSeries valueField="valMin" name="Min" />
       <DxSeries valueField="valMax" name="Max" />
-      <DxLegend :visible="true" />
+      <DxLegend :visible="true" hover-mode="none" />
     </DxChart>
   </div>
 </template>
@@ -40,6 +48,11 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data() {
+    return {
+      pointSetting: { size: 6, hoverMode: 'none' },
+    };
   },
   computed: {
     rangeHistory() {
@@ -86,5 +99,16 @@ export default {
 }
 .historyGraph.transition {
   visibility: visible;
+}
+
+.closeIcon {
+  float: right;
+  padding-right: 2.5%;
+  /* padding-left: 2%; */
+  padding-bottom: 1%;
+}
+
+.tooltipGraph:first-child {
+  clear: both;
 }
 </style>

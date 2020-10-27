@@ -25,7 +25,7 @@
             @hoverOut="removeTooltip"
           ></left-range-graph>
           <left-range-chart
-            @hover="showTooltip"
+            @click="showTooltip"
             :rangeData="mrangeVals"
           ></left-range-chart>
         </div>
@@ -246,11 +246,11 @@ export default {
   padding-bottom: 0.5rem;
   padding-left: 38%;
 }
-/* 
+
 #chart {
   padding: 1rem 1rem 0.5rem;
   height: 60%;
-} */
+}
 
 .val {
   font-size: 1rem;

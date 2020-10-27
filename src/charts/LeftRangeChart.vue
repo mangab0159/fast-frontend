@@ -5,7 +5,7 @@
       :data-source="leftRange"
       palette="Violet"
       :rotated="true"
-      @point-hover-changed="onPointHoverChanged($event)"
+      @point-click="onClick"
     >
       <DxCommonSeriesSettings argument-field="finger" type="rangebar">
         <DxPoint hover-mode="onlyPoint"></DxPoint>
@@ -109,20 +109,18 @@ export default {
     },
   },
   methods: {
-    onPointHoverChanged(e) {
+    onClick(e) {
       const point = e.target;
-      if (point.isHovered()) {
-        console.log('hover', e.target);
-        let finger = point.argument;
-        let fingerParsed =
-          finger !== 'Thumb' ? finger.substring(0, finger.length - 7) : 'thumb';
-        fingerParsed = fingerParsed.toLowerCase();
-        let joint = point.series.name;
-        let jointParsed = joint.substring(0, joint.length - 6);
-        let fingerJoint = 'l' + fingerParsed + jointParsed;
-        console.log('fingerJoint', fingerJoint);
-        this.$emit('hover', fingerJoint);
-      }
+      console.log('onClick', e.target);
+      let finger = point.argument;
+      let fingerParsed =
+        finger !== 'Thumb' ? finger.substring(0, finger.length - 7) : 'thumb';
+      fingerParsed = fingerParsed.toLowerCase();
+      let joint = point.series.name;
+      let jointParsed = joint.substring(0, joint.length - 6);
+      let fingerJoint = 'l' + fingerParsed + jointParsed;
+      console.log('fingerJoint', fingerJoint);
+      this.$emit('click', fingerJoint);
     },
   },
 };
