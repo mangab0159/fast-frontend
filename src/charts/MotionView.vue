@@ -31,7 +31,7 @@ export default {
 
     var createScene = async function() {
       let scene = await BABYLON.SceneLoader.LoadAsync(
-        'http://localhost:3000/scene/',
+        process.env.VUE_APP_API_URL + 'scene/',
         'CT02.babylon',
         engine,
       );
