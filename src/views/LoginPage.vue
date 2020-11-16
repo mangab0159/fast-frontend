@@ -1,14 +1,13 @@
 <template>
   <div>
     <div class="bgImg">
-      <div class="jumbotron">
+      <div>
         <h1>FAST</h1>
         <p class="desc">
           Patients can rehabiltate their upper limbs using embeded devices with
           VR contents by this service.
         </p>
-        <p>
-          <router-link
+        <!-- <router-link
             to="/patients"
             class="btn btn-primary btn-lg"
             role="button"
@@ -19,15 +18,39 @@
             class="btn btn-primary btn-lg"
             role="button"
             >Worklist 보기</router-link
-          >
-        </p>
+          > -->
+        <div class="loginForm">
+          <form name="form" @submit.prevent="handleLogin">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block">
+                <span>Login</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+// import { sendHandData, sendHandDataGet } from '@/api';
+
+export default {
+  methods: {
+    handleLogin() {
+      this.$router.push('/patients');
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -37,6 +60,7 @@ export default {};
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .bgImg::before {
   content: '';
@@ -50,13 +74,9 @@ export default {};
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: right;
-  opacity: 0.5;
+  opacity: 0.8;
 }
-.jumbotron {
-  text-align: center;
-  background-color: transparent;
-}
-.jumbotron h1 {
+h1 {
   font-size: 6rem;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
@@ -65,15 +85,15 @@ export default {};
   font-weight: 50;
 }
 
-.jumbotron p {
+p {
   font-size: 1.2rem;
   padding-bottom: 2.5rem;
 }
 
-.jumbotron .btn-lg {
+.btn-lg {
   margin: 0px 1rem 3rem;
 }
-.jumbotron .btn-primary {
+.btn-primary {
   color: #fff;
   background-color: #00a0ff;
   border-color: #00a0ff;
@@ -82,5 +102,15 @@ export default {};
   color: #fff;
   background-color: #0089d9;
   border-color: #0082cc;
+}
+
+.loginForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+form {
+  width: 70vh;
 }
 </style>
