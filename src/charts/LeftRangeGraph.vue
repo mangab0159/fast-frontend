@@ -4,7 +4,7 @@
       <img
         class="closeIcon"
         @click="removeTooltip"
-        src="../assets/closeIcon16.png"
+        src="../assets/closeIcon.png"
       />
     </div>
     <DxChart

@@ -32,6 +32,14 @@ function fetchHandData(taskInfo) {
   return instance.post('tresults/handData', taskInfo);
 }
 
+function sendHandData(test) {
+  return instance.post('hands', test);
+}
+
+function sendHandDataGet() {
+  return instance.get('hands');
+}
+
 export {
   fetchPatients,
   createPatient,
@@ -40,4 +48,6 @@ export {
   fetchTresults,
   fetchTaskTime,
   fetchHandData,
+  sendHandData,
+  sendHandDataGet,
 };
