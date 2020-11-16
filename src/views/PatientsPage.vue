@@ -114,6 +114,6 @@ th {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 0.5;
+  opacity: 0.85;
 }
 </style>
