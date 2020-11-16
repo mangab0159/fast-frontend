@@ -30,9 +30,6 @@ export default {
       this.$router.push(`/patients/${this.patientname}`);
     },
   },
-  created() {
-    console.log('SearchBar created');
-  },
 };
 </script>
 

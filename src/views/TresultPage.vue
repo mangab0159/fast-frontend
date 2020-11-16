@@ -5,17 +5,17 @@
       <div class="tabs">
         <div
           @click="beActive(num, $event)"
-          v-for="num in tkcds.length"
+          v-for="num in taskResults.length"
           :key="num"
           :class="{ active: num == 1 }"
         >
-          <a href="javascript:;"> Task {{ tkcds[num - 1].tkid - 100 }}</a>
+          <a href="javascript:;"> Task {{ taskResults[num - 1].tkid - 100 }}</a>
         </div>
       </div>
     </div>
     <TaskResult
       :handGraphVals="handGraphVals"
-      :ertimeVals="ertimeVals"
+      :ertimeVals="ExerRespTimeVals"
       :mrangeVals="mrangeVals"
     ></TaskResult>
   </div>
@@ -37,50 +37,50 @@ export default {
       ctid: this.$route.params.ctid,
       pcid: this.$route.params.pcid,
       tknum: null,
-      tkcds: [],
+      taskResults: [],
       tkSelected: 1,
       tkidData: {},
-      tkidDataLen: -1,
+      isTimeDataReady: false,
       isHandDataReady: false,
     };
   },
   computed: {
-    ertimeVals() {
-      if (this.tkidData.size !== this.tkidDataLen) {
-        // console.log('ertimeVals tkidData size', this.tkidData.size);
-        return [];
-      } else {
-        // console.log('ertimeVals computed');
-        let tkid = this.tkcds[this.tkSelected - 1].tkid;
-        let cdatetime = this.tkcds[this.tkSelected - 1].cdatetime;
-        let ret = [];
-        let cnt = 0;
+    ExerRespTimeVals() {
+      if (this.isTimeDataReady) {
+        let ExerRespTimeVals = [];
+
+        let tkid = this.taskResults[this.tkSelected - 1].tkid;
+        let cdatetime = this.taskResults[this.tkSelected - 1].cdatetime;
+
         // this.tkidData[tkid] should be orderd by cdatetime descending
+        // Take out 12 or less time values
+        // where corresponding cdatetime is before the cdatetime of the selected task
+        let cnt = 0;
         for (
           let idx = this.tkidData.get(tkid).length - 1;
           idx >= 0 && cnt <= 12;
           idx--
         ) {
           if (this.tkidData.get(tkid)[idx].cdatetime <= cdatetime) {
-            ret[cnt] = this.tkidData.get(tkid)[idx];
+            ExerRespTimeVals[cnt] = this.tkidData.get(tkid)[idx];
             cnt++;
           }
         }
-        return ret;
-      }
+        return ExerRespTimeVals;
+      } else return [];
     },
     mrangeVals() {
-      if (this.tkcds === []) {
+      if (this.taskResults === []) {
         return {};
-      } else return this.tkcds[this.tkSelected - 1];
+      } else return this.taskResults[this.tkSelected - 1];
     },
     handGraphVals() {
       if (this.isHandDataReady === false) {
         return [];
       } else {
         let ret = [];
-        let tkid = this.tkcds[this.tkSelected - 1].tkid;
-        let cdatetime = this.tkcds[this.tkSelected - 1].cdatetime;
+        let tkid = this.taskResults[this.tkSelected - 1].tkid;
+        let cdatetime = this.taskResults[this.tkSelected - 1].cdatetime;
         let cnt = 0;
         let handDataArr = this.handDataMap.get(tkid);
         for (let i = 0; i < handDataArr.length && cnt < 12; i++) {
@@ -104,66 +104,58 @@ export default {
       this.removeClassAll('active');
       event.currentTarget.className += ' active';
       this.tkSelected = num;
-      // console.log('tkSelectd', this.tkSelected);
     },
   },
   async created() {
-    // ptid, ctid, pcid same all tkcds array
-    // including tkid, cdatetime, rangeValue
+    // taskResults array includes tkids, cdatetimes, rangeValues
     const tresultsData = await fetchTresults(this.$route.params);
-    this.tkcds = tresultsData.data.tkcds;
-    this.tknum = this.tkcds.length;
+    this.taskResults = tresultsData.data.tkcds;
+    this.tknum = this.taskResults.length;
 
+    // Pair tkid with the latest cdatetime
     var tkidCdateMap = new Map();
-    for (let idx = 0; idx < this.tkcds.length; idx++) {
-      let tkid = this.tkcds[idx].tkid;
-      let cdatetime = this.tkcds[idx].cdatetime;
+    for (let idx = 0; idx < this.taskResults.length; idx++) {
+      let tkid = this.taskResults[idx].tkid;
+      let cdatetime = this.taskResults[idx].cdatetime;
       tkidCdateMap.set(tkid, cdatetime);
     }
 
-    // key == tkid && value == cdatetime
-    // fetch 30 rows of same tkid, ptid, ctid before cdatetime
-    // order by cdatetime descending
-
+    // Make tkid-cdatetime array for fetchTaskTime request
     let tkidCdateArr = [];
     for (let [key, value] of tkidCdateMap.entries()) {
       tkidCdateArr.push({ tkid: key, cdatetime: value });
     }
 
+    // Make object to be parameter for fetchTaskTime request
     const taskInfo = {
       ptid: this.$route.params.ptid,
       ctid: this.$route.params.ctid,
       tkidCdateArr,
     };
 
-    console.log('taskInfo', taskInfo);
+    // fetch 30 rows of same tkid, ptid, ctid before the cdatetime
+    // order by cdatetime descending
+
     const taskTimeData = await fetchTaskTime(taskInfo);
 
-    // console.log('taskTimeData', taskTimeData);
-
+    // Pair tkid with corresponding task results(in this case exercise time and response time)
     this.tkidData = new Map();
-
     let taskTimeArr = [];
     let tkidBefore = taskTimeData.data.taskTimes[0].tkid;
     for (let i = 0; i < taskTimeData.data.taskTimes.length; i++) {
-      if (tkidBefore == taskTimeData.data.taskTimes[i].tkid) {
-        taskTimeArr.push(taskTimeData.data.taskTimes[i]);
-      } else {
+      if (tkidBefore != taskTimeData.data.taskTimes[i].tkid) {
         this.tkidData.set(tkidBefore, taskTimeArr);
         taskTimeArr = [];
         tkidBefore = taskTimeData.data.taskTimes[i].tkid;
-        taskTimeArr.push(taskTimeData.data.taskTimes[i]);
       }
+      taskTimeArr.push(taskTimeData.data.taskTimes[i]);
     }
 
     this.tkidData.set(tkidBefore, taskTimeArr);
 
-    // console.log('tkidData', this.tkidData);
+    this.isTimeDataReady = true;
 
-    this.tkidDataLen = tkidCdateMap.size;
-    console.log('start');
     const handData = await fetchHandData(taskInfo);
-    console.log('finish');
     this.handDataMap = new Map();
 
     let handDataArr = [];
