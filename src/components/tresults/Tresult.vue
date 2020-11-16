@@ -79,6 +79,10 @@
         <div>
           <div></div>
           <div class="name">Motion Trajectory</div>
+          <div class="desc">
+            - 3D view of perfoming rehabilitation task
+          </div>
+          <motion-view class="MotionView"></motion-view>
         </div>
       </div>
     </div>
@@ -90,7 +94,7 @@ import ResponseChart from '@/charts/ResponseChart.vue';
 import LeftRangeChart from '@/charts/LeftRangeChart.vue';
 import RightRangeChart from '@/charts/RightRangeChart.vue';
 import LeftRangeGraph from '@/charts/LeftRangeGraph.vue';
-
+import MotionView from '@/charts/MotionView.vue';
 export default {
   components: {
     ExerciseChart,
@@ -98,6 +102,7 @@ export default {
     LeftRangeChart,
     RightRangeChart,
     LeftRangeGraph,
+    MotionView,
   },
   props: {
     ertimeVals: {
@@ -260,6 +265,11 @@ export default {
   padding-left: 48%;
 }
 .chart {
+  padding: 2rem 1rem 1rem;
+  height: 80%;
+}
+
+.MotionView {
   padding: 2rem 1rem 1rem;
   height: 80%;
 }
