@@ -208,7 +208,7 @@ h1 {
 }
 
 .b-button {
-  padding: 1rem 0 2rem 0.5vw;
+  padding: 0 0 2rem 0.5vw;
   float: right;
 }
 
