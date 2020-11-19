@@ -51,7 +51,8 @@ export default {
       if (ptname === undefined) {
         // Ptname of undefined means that users didn't serach a name
         try {
-          const { data } = await fetchPatients();
+          const userid = { dtid: this.$store.state.userid };
+          const { data } = await fetchPatients(userid);
           this.patientsInfo = data.patientsInfo;
         } catch (error) {
           console.log(error);
