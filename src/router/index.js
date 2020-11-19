@@ -32,11 +32,6 @@ const routes = [
     meta: { auth: true },
   },
   {
-    path: '/worklists',
-    component: () => import('@/views/WorklistsPage.vue'),
-    meta: { auth: true },
-  },
-  {
     path: '*',
     component: () => import('@/views/NotFoundPage.vue'),
     meta: { auth: true },
