@@ -50,22 +50,19 @@ export default {
   },
   methods: {
     renderLineChart: function() {
+      console.log('this.chartData', this.chartData);
+      let labels = [];
+      for (let i = 1; i <= this.chartData.length; i++) {
+        if (i == 1) labels[0] = '1st';
+        else if (i == 2) labels[1] = '2nd';
+        else if (i == 3) labels[2] = '3rd';
+        else {
+          labels[i - 1] = i + 'th';
+        }
+      }
       this.renderChart(
         {
-          labels: [
-            '1st',
-            '2nd',
-            '3rd',
-            '4th',
-            '5th',
-            '6th',
-            '7th',
-            '8th',
-            '9th',
-            '10th',
-            '11th',
-            '12th',
-          ],
+          labels,
           datasets: [
             {
               // label: 'second',
