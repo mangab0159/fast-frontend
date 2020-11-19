@@ -45,6 +45,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  console.log('to.meta.auth', to.meta.auth);
+  console.log('!store.getter.isLogin', !store.getters.isLogin);
   if (to.meta.auth && !store.getters.isLogin) {
     console.log('인증필요');
     next('/');
