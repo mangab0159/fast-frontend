@@ -14,6 +14,10 @@
         autofocus
       />
     </form>
+    <!-- <template v-if="isUserLogin">
+      <span>{{ $store.state.username }}</span>
+      <a href="javascript:;" @click="logoutUser">Logout</a>
+    </template> -->
   </div>
 </template>
 
@@ -24,12 +28,28 @@ export default {
       patientname: '',
     };
   },
-
   methods: {
     submitForm() {
       this.$router.push(`/patients/${this.patientname}`);
     },
+    // logoutUser() {
+    //   this.$store.commit('clearUsername');
+    //   this.$router.push('/');
+    // },
+    // gotoLoginpage() {
+    //   this.$router.push('/');
+    // },
   },
+  // computed: {
+  //   isUserLogin() {
+  //     let flg = !this.$store.getters.isLogin;
+  //     console.log('flg', flg);
+  //     if (flg) {
+  //       this.gotoLoginpage();
+  //     }
+  //     return false;
+  //   },
+  // },
 };
 </script>
 
@@ -48,10 +68,9 @@ export default {
 }
 
 .header-container .logo {
-  width: 115px;
-  height: 30px;
-  margin-left: 10px;
-  margin-top: 6px;
+  width: 60px;
+  height: 40px;
+  margin-left: 2.5vw;
   background: url('../../assets/FAST.png');
   background-size: contain;
 }
@@ -59,7 +78,7 @@ export default {
 form {
   display: flex;
   height: 40px;
-  margin-left: 30px;
+  margin-left: 2.5vw;
 }
 
 button.search {
