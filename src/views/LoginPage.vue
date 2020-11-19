@@ -23,14 +23,28 @@
           <form name="form" @submit.prevent="handleLogin">
             <div class="form-group">
               <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" />
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                v-model="username"
+              />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" />
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                v-model="password"
+              />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block">
+              <button
+                :disabled="!isUsernameValid || !password"
+                type="submit"
+                class="btn btn-primary btn-block"
+              >
                 <span>Login</span>
               </button>
             </div>
@@ -43,11 +57,38 @@
 
 <script>
 // import { sendHandData, sendHandDataGet } from '@/api';
+import { loginUser } from '@/api/index';
 
 export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
   methods: {
-    handleLogin() {
-      this.$router.push('/patients');
+    async handleLogin() {
+      const userData = {
+        username: this.username,
+        password: this.password,
+      };
+      try {
+        const { data } = await loginUser(userData);
+        console.log('user', data.user);
+        console.log('userid', data.userid);
+        this.$store.commit('setToken', data.token);
+        this.$store.commit('setUsername', data.username);
+        this.$store.commit('setUserid', data.userid);
+        this.$router.push('/patients');
+      } catch (error) {
+        console.log('error', error);
+      }
+    },
+  },
+  computed: {
+    isUsernameValid() {
+      let re = /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+      return re.test(String(this.username).toLowerCase());
     },
   },
 };

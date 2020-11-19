@@ -5,16 +5,27 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    patientname: '',
+    username: '',
+    token: '',
+    userid: '',
   },
   getters: {
-    isSearching(state) {
-      return state.patientname !== '';
+    isLogin(state) {
+      return state.username !== '';
     },
   },
   mutations: {
-    setPatientname(state, patientname) {
-      state.patientname = patientname;
+    setUsername(state, username) {
+      state.username = username;
+    },
+    clearUsername(state) {
+      state.username = '';
+    },
+    setToken(state, token) {
+      state.token = token;
+    },
+    setUserid(state, userid) {
+      state.userid = userid;
     },
   },
   actions: {},

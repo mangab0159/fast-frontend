@@ -1,11 +1,22 @@
 import axios from 'axios';
+import { setInterceptors } from './common/interceptors';
 
-const instance = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
-});
+function createInstance() {
+  const instance = axios.create({
+    baseURL: process.env.VUE_APP_API_URL,
+  });
 
-function fetchPatients() {
-  return instance.get('patients');
+  return setInterceptors(instance);
+}
+
+const instance = createInstance();
+
+function loginUser(userData) {
+  return instance.post('login', userData);
+}
+
+function fetchPatients(userid) {
+  return instance.post('patients', userid);
 }
 
 function fetchPatientsByName(ptname) {
@@ -41,6 +52,7 @@ function sendHandDataGet() {
 }
 
 export {
+  loginUser,
   fetchPatients,
   createPatient,
   fetchPatientsByName,
