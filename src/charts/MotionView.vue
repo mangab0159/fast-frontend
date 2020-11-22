@@ -6,7 +6,7 @@
 
 <script>
 import * as BABYLON from 'babylonjs';
-import handData from './HandData';
+// import handData from '../../public/HandData';
 // import TankData from '@/assetData/TankData';
 // import { Vector3 } from 'babylonjs';
 
@@ -73,8 +73,11 @@ export default {
 
       let bones = scene.skeletons[0].bones;
       console.log('bones', bones);
+      const fileName = 'HandData';
+      let handData = await import(`../../public/${fileName}`);
 
-      let handDataArr = handData.handDataArr;
+      console.log('handData', handData.default);
+      let handDataArr = handData.default.handDataArr;
       console.log('handDataArr', handDataArr);
 
       let cnt = handDataArr.length;

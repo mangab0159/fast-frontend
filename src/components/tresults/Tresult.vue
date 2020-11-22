@@ -11,14 +11,6 @@
           <div class="chart-title">
             Left Hand
           </div>
-          <!-- <div
-            class="tooltipGraph"
-            @mouseout="removeTooltip"
-            :class="{ transition: this.fingerHovered !== '' }"
-          >
-            <LeftRangeGraph></LeftRangeGraph>
-          </div> -->
-          <!-- <div class="tooltipGraph"></div> -->
           <left-range-graph
             :fingerHovered="fingerHovered"
             :fingerHoveredVals="fingerHoveredVals"
@@ -35,7 +27,7 @@
       <div class="wrapper">
         <div>
           <div></div>
-          <div class="name">Maximum Operation Range - Right</div>
+          <div class="name">Maximum Operation Range - Left</div>
           <div class="desc">
             - The motion range while performing the task(degree)
           </div>
@@ -52,9 +44,6 @@
           <div></div>
           <div class="name">Exercise Time - {{ etime[etime.length - 1] }}s</div>
           <div class="desc">- Time taken to perform the task(s)</div>
-          <!-- <div class="val">
-            {{ taskResults[taskResults.length - 1].etime }}
-          </div> -->
           <exercise-chart class="chart" :data="etime"></exercise-chart>
         </div>
       </div>
@@ -67,22 +56,7 @@
             Response Time - {{ rtime[rtime.length - 1] }}ms
           </div>
           <div class="desc">- Time taken to respond to the task(ms)</div>
-          <!-- <div class="val">
-            {{ taskResults[taskResults.length - 1].rtime }}
-          </div> -->
           <response-chart class="chart" :data="rtime"></response-chart>
-        </div>
-      </div>
-    </div>
-    <div class="tresult">
-      <div class="wrapper">
-        <div>
-          <div></div>
-          <div class="name">Motion Trajectory</div>
-          <div class="desc">
-            - 3D view of perfoming rehabilitation task
-          </div>
-          <motion-view class="MotionView"></motion-view>
         </div>
       </div>
     </div>
@@ -94,7 +68,7 @@ import ResponseChart from '@/charts/ResponseChart.vue';
 import LeftRangeChart from '@/charts/LeftRangeChart.vue';
 import RightRangeChart from '@/charts/RightRangeChart.vue';
 import LeftRangeGraph from '@/charts/LeftRangeGraph.vue';
-import MotionView from '@/charts/MotionView.vue';
+// import MotionView from '@/charts/MotionView.vue';
 export default {
   components: {
     ExerciseChart,
@@ -102,7 +76,7 @@ export default {
     LeftRangeChart,
     RightRangeChart,
     LeftRangeGraph,
-    MotionView,
+    // MotionView,
   },
   props: {
     ertimeVals: {

@@ -1,0 +1,18 @@
+export default {
+    "tkid":100,
+    "etime":0.0,
+    "rtime":0.0,
+    "epoint":-5,
+    "cdatetime":"20201120070744",
+    "lthumbfirstmin":0.0,
+    "lthumbfirstmax":0.0,
+    "lthumbsecondmin":0.0,
+    "lthumbsecondmax":0.0,
+    "lindexfirstmin":0.0,"lindexfirstmax":0.0,"lindexsecondmin":0.0,"lindexsecondmax":0.0,
+    "lmiddlefirstmin":0.0,"lmiddlefirstmax":0.0,"lmiddlesecondmin":0.0,"lmiddlesecondmax":0.0,
+    "lringfirstmin":0.0,"lringfirstmax":0.0,"lringsecondmin":0.0,"lringsecondmax":0.0,"lpinkyfirstmin":0.0,
+    "lpinkyfirstmax":0.0,"lpinkysecondmin":90.0,"lpinkysecondmax":0.0,"rthumbfirstmin":0.0,"rthumbfirstmax":0.0,
+    "rthumbsecondmin":0.0,"rthumbsecondmax":0.0,"rindexfirstmin":0.0,"rindexfirstmax":0.0,"rindexsecondmin":0.0,
+    "rindexsecondmax":0.0,"rmiddlefirstmin":0.0,"rmiddlefirstmax":0.0,"rmiddlesecondmin":0.0,"rmiddlesecondmax":0.0,
+    "rringfirstmin":0.0,"rringfirstmax":0.0,"rringsecondmin":0.0,"rringsecondmax":0.0,"rpinkyfirstmin":0.0,"rpinkyfirstmax":0.0,
+    "rpinkysecondmin":0.0,"rpinkysecondmax":0.0};
