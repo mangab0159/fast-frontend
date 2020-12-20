@@ -91,9 +91,7 @@ export default {
       return re.test(String(this.username).toLowerCase());
     },
   },
-  
 };
-
 </script>
 
 <style scoped>
