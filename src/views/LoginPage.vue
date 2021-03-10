@@ -57,8 +57,6 @@
 
 <script>
 // import { sendHandData, sendHandDataGet } from '@/api';
-import { loginUser } from '@/api/index';
-
 export default {
   data() {
     return {
@@ -73,12 +71,8 @@ export default {
         password: this.password,
       };
       try {
-        const { data } = await loginUser(userData);
-        console.log('user', data.user);
-        console.log('userid', data.userid);
-        this.$store.commit('setToken', data.token);
-        this.$store.commit('setUsername', data.username);
-        this.$store.commit('setUserid', data.userid);
+        await this.$store.dispatch('LOGIN', userData);
+
         this.$router.push('/patients');
       } catch (error) {
         console.log('error', error);
