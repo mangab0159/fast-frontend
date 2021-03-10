@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <router-link class="home-link" to="/">
+    <router-link class="home-link" :to="logoLink">
       <div class="logo"></div>
     </router-link>
     <form @submit.prevent="submitForm">
@@ -14,14 +14,19 @@
         autofocus
       />
     </form>
-    <!-- <template v-if="isUserLogin">
-      <span>{{ $store.state.username }}</span>
-      <a href="javascript:;" @click="logoutUser">Logout</a>
-    </template> -->
+    <template v-if="isUserLogin">
+      <a href="javascript:;" class="logoutButton" @click="logoutUser">
+        <b-button variant="outline-info">
+          <b-icon icon="power" aria-hidden="true"></b-icon> Logout
+        </b-button>
+      </a>
+    </template>
   </div>
 </template>
 
 <script>
+import { deleteCookie } from '@/utils/cookies';
+
 export default {
   data() {
     return {
@@ -32,24 +37,31 @@ export default {
     submitForm() {
       this.$router.push(`/patients/${this.patientname}`);
     },
-    // logoutUser() {
-    //   this.$store.commit('clearUsername');
-    //   this.$router.push('/');
-    // },
-    // gotoLoginpage() {
-    //   this.$router.push('/');
-    // },
+    logoutUser() {
+      this.$store.commit('clearUsername');
+      this.$store.commit('clearToken');
+      deleteCookie('fast_auth');
+      deleteCookie('fast_user');
+      this.$router.push('/');
+    },
+    gotoLoginpage() {
+      this.$router.push('/');
+    },
   },
-  // computed: {
-  //   isUserLogin() {
-  //     let flg = !this.$store.getters.isLogin;
-  //     console.log('flg', flg);
-  //     if (flg) {
-  //       this.gotoLoginpage();
-  //     }
-  //     return false;
-  //   },
-  // },
+  computed: {
+    isUserLogin() {
+      let isUserLogin = this.$store.getters.isLogin;
+      console.log('isUserLogin', isUserLogin);
+      if (!isUserLogin) {
+        this.gotoLoginpage();
+        return false;
+      }
+      return true;
+    },
+    logoLink() {
+      return this.$store.getters.isLogin ? '/patients' : '/';
+    },
+  },
 };
 </script>
 
@@ -67,12 +79,16 @@ export default {
   border-bottom: 2px solid #ebebeb;
 }
 
-.header-container .logo {
+.logo {
   width: 60px;
   height: 40px;
   margin-left: 2.5vw;
   background: url('../../assets/FAST.png');
   background-size: contain;
+}
+
+.logoutButton {
+  margin-left: 2.5vw;
 }
 
 form {
