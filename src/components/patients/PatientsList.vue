@@ -1,7 +1,11 @@
 <template>
   <tr>
     <td class="column1">
-      <router-link :to="pcontentLink">{{ patientInfo.ptname }}</router-link>
+      <router-link :to="pcontentLink">
+        <span @click="setPatientInfo">
+          {{ patientInfo.ptname }}
+        </span>
+      </router-link>
     </td>
     <td class="column2">{{ patientInfo.ptage }}</td>
     <td class="column3">{{ patientInfo.ptid }}</td>
@@ -22,7 +26,12 @@ export default {
       pcontentLink: '',
     };
   },
-
+  methods: {
+    setPatientInfo() {
+      this.$store.commit('setPatientName', this.patientInfo.ptname);
+      this.$store.commit('setPatientAge', this.patientInfo.ptage);
+    },
+  },
   created() {
     this.pcontentLink = {
       name: 'pcontent',

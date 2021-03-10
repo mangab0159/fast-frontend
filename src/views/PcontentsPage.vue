@@ -82,8 +82,8 @@ export default {
       isLoading: false, // Flag showing whether fetching data from back-end server is done or not
       pcontentNames: [],
       ctid: null,
-      ptname: ' ' + this.$route.params.ptname,
-      ptage: ' ' + this.$route.params.ptage,
+      ptname: ' ',
+      ptage: ' ',
       totalPlayCount: null,
       lastPlayDate: '',
       firstPlayDate: '',
@@ -163,6 +163,8 @@ export default {
   },
   created() {
     this.fetchPcontentsData();
+    this.ptname = this.$store.getters.patientName;
+    this.ptage = this.$store.getters.patientAge;
   },
 };
 </script>
