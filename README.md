@@ -23,7 +23,7 @@ Viwers can show:
    
 * [Vue.js](https://vuejs.org) -  a progressive framework for building user interfaces.
 * [Babylon.js](https://babylonjs.com) - one of the most powerful, beautiful, and simple Web rendering engines
-* [D3.js](https://d3js.org) - a JavaScript library for manipulating documents based on data. 
+* [chart.js](https://www.chartjs.org/) - Simple, clean and engaging HTML5 based JavaScript charts. 
 * [BootstrapVue](https://bootstrap-vue.org) - Quickly integrate Bootstrap v4 components with Vue.js.
 
 
